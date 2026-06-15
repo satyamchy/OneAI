@@ -7,10 +7,10 @@ import { SettingsPage } from "./features/settings/SettingsPage.jsx";
 import { useAuthStore } from "./stores/authStore.js";
 
 function ProtectedRoute({ children }) {
-  const token = useAuthStore((state) => state.token);
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
+  //const token = useAuthStore((state) => state.token);
+  // if (!token) {
+  //   return <Navigate to="/login" replace />;
+  // }
   return children;
 }
 

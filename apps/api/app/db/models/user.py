@@ -15,6 +15,11 @@ class User(Base, TimestampMixin):
     password_hash: Mapped[str] = mapped_column(String(512), nullable=False)
     display_name: Mapped[str | None] = mapped_column(String(160), nullable=True)
     default_model_id: Mapped[str | None] = mapped_column(String(160), nullable=True)
+    phone_number: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    linked_in_url: Mapped[str | None] = mapped_column(String(160), nullable=True)
+    github_url: Mapped[str | None] = mapped_column(String(160), nullable=True)
+    updated_resume_url: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    updated_at: Mapped[str | None] = mapped_column(String(160), nullable=True)
 
     conversations = relationship("Conversation", back_populates="user")
 
