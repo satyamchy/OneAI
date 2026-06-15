@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PAIOS Architecture & Build Guide</title>
+<style>
+@page {
+  size: A4;
+  margin: 18mm 16mm 20mm 16mm;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.55;
+  color: #1a1a2e;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.cover {
+  page-break-after: always;
+  text-align: center;
+  padding-top: 80px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cover h1 {
+  font-size: 28pt;
+  color: #0f3460;
+  margin-bottom: 8px;
+  border: none;
+}
+.cover .subtitle {
+  font-size: 14pt;
+  color: #533483;
+  margin-bottom: 40px;
+}
+.cover .meta {
+  font-size: 11pt;
+  color: #666;
+  line-height: 2;
+}
+.cover .use-cases {
+  margin-top: 50px;
+  text-align: left;
+  max-width: 480px;
+  background: #f0f4f8;
+  padding: 24px 32px;
+  border-radius: 8px;
+  border-left: 4px solid #0f3460;
+}
+.cover .use-cases h3 { margin-top: 0; color: #0f3460; font-size: 12pt; }
+.cover .use-cases ul { margin: 0; padding-left: 20px; }
+h1 {
+  font-size: 20pt;
+  color: #0f3460;
+  border-bottom: 2px solid #0f3460;
+  padding-bottom: 6px;
+  margin-top: 28px;
+  page-break-after: avoid;
+}
+h2 {
+  font-size: 14pt;
+  color: #16213e;
+  margin-top: 22px;
+  page-break-after: avoid;
+}
+h3 {
+  font-size: 12pt;
+  color: #533483;
+  margin-top: 16px;
+  page-break-after: avoid;
+}
+h4 { font-size: 11pt; color: #444; margin-top: 12px; }
+p { margin: 8px 0; }
+ul, ol { margin: 8px 0; padding-left: 24px; }
+li { margin: 4px 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 9.5pt;
+  page-break-inside: avoid;
+}
+th {
+  background: #0f3460;
+  color: white;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+}
+td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #dde3ea;
+  vertical-align: top;
+}
+tr:nth-child(even) td { background: #f8fafc; }
+pre {
+  background: #1a1a2e;
+  color: #e8e8e8;
+  padding: 14px 16px;
+  border-radius: 6px;
+  font-size: 8.5pt;
+  line-height: 1.45;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  page-break-inside: avoid;
+  margin: 12px 0;
+}
+code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 9pt;
+  background: #eef2f7;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+pre code { background: none; padding: 0; color: inherit; }
+hr {
+  border: none;
+  border-top: 1px solid #dde3ea;
+  margin: 20px 0;
+}
+.toc {
+  page-break-after: always;
+  padding: 20px 0;
+}
+.toc h2 { border-bottom: 2px solid #0f3460; }
+.toc ol { line-height: 1.8; }
+.toc a { color: #0f3460; text-decoration: none; }
+.section { page-break-inside: avoid; }
+footer {
+  display: none;
+}
+@media print {
+  h1, h2, h3 { page-break-after: avoid; }
+  pre, table { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Personal AI Operating System</h1>
+  <div class="subtitle">Complete Architecture &amp; Build Guide</div>
+  <div class="meta">
+    <strong>Version 1.0</strong><br>
+    June 9, 2026<br>
+    Provider-Agnostic Personal AI Platform
+  </div>
+  <div class="use-cases">
+    <h3>Your Use Cases</h3>
+    <ul>
+      <li><strong>Study</strong> — flashcards, study guides, revision sheets</li>
+      <li><strong>Trading</strong> — research notes, market analysis, insights</li>
+      <li><strong>Excel / Data Analytics</strong> — Q&amp;A on uploaded spreadsheets</li>
+      <li><strong>Research</strong> — storage systems, technical deep-dives</li>
+      <li><strong>General Q&amp;A</strong> — multi-model chat with memory &amp; citations</li>
+    </ul>
+  </div>
+</div>
+
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+  <li><a href="#complete-architecture-build-guide">Complete Architecture & Build Guide</a></li>
+  <li><a href="#1-executive-summary">1. Executive Summary</a></li>
+  <li><a href="#2-system-architecture">2. System Architecture</a></li>
+  <li><a href="#3-functional-requirements">3. Functional Requirements</a></li>
+  <li><a href="#4-non-functional-requirements">4. Non-Functional Requirements</a></li>
+  <li><a href="#5-technology-stack">5. Technology Stack</a></li>
+  <li><a href="#6-data-architecture-tradeoffs">6. Data Architecture Tradeoffs</a></li>
+  <li><a href="#7-database-design">7. Database Design</a></li>
+  <li><a href="#8-memory-architecture">8. Memory Architecture</a></li>
+  <li><a href="#9-rag-architecture">9. RAG Architecture</a></li>
+  <li><a href="#10-model-routing-fallback">10. Model Routing & Fallback</a></li>
+  <li><a href="#11-web-search-integration">11. Web Search Integration</a></li>
+  <li><a href="#12-third-party-integrations">12. Third-Party Integrations</a></li>
+  <li><a href="#13-analytics-architecture">13. Analytics Architecture</a></li>
+  <li><a href="#14-api-design">14. API Design</a></li>
+  <li><a href="#15-security-access-control">15. Security & Access Control</a></li>
+  <li><a href="#16-deployment-scaling">16. Deployment & Scaling</a></li>
+  <li><a href="#17-knowledge-notes-system">17. Knowledge & Notes System</a></li>
+  <li><a href="#18-folder-structure">18. Folder Structure</a></li>
+  <li><a href="#19-build-vs-outsource-vs-custom">19. Build vs Outsource vs Custom</a></li>
+  <li><a href="#20-mvp-roadmap-812-weeks">20. MVP Roadmap (8–12 Weeks)</a></li>
+  <li><a href="#21-phase-wise-build-plan">21. Phase-Wise Build Plan</a></li>
+  <li><a href="#22-development-milestones">22. Development Milestones</a></li>
+  <li><a href="#23-step-by-step-build-order">23. Step-by-Step Build Order</a></li>
+  <li><a href="#24-architecture-decisions">24. Architecture Decisions</a></li>
+</ol>
+</div>
+
+<h1 id="personal-ai-operating-system-paios">Personal AI Operating System (PAIOS)</h1>
+<h2 id="complete-architecture-build-guide">Complete Architecture &amp; Build Guide</h2>
+<p><strong>Version:</strong> 1.0  </p>
+<p><strong>Date:</strong> June 9, 2026  </p>
+<p><strong>Purpose:</strong> Production-grade, provider-agnostic Personal AI OS for study, trading, Excel data analytics, Q&amp;A, research, and storage systems exploration.</p>
+<hr>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol><li>[Executive Summary](#1-executive-summary)</li><li>[System Architecture](#2-system-architecture)</li><li>[Functional Requirements](#3-functional-requirements)</li><li>[Non-Functional Requirements](#4-non-functional-requirements)</li><li>[Technology Stack](#5-technology-stack)</li><li>[Data Architecture Tradeoffs](#6-data-architecture-tradeoffs)</li><li>[Database Design](#7-database-design)</li><li>[Memory Architecture](#8-memory-architecture)</li><li>[RAG Architecture](#9-rag-architecture)</li><li>[Model Routing &amp; Fallback](#10-model-routing--fallback)</li><li>[Web Search Integration](#11-web-search-integration)</li><li>[Third-Party Integrations](#12-third-party-integrations)</li><li>[Analytics Architecture](#13-analytics-architecture)</li><li>[API Design](#14-api-design)</li><li>[Security &amp; Access Control](#15-security--access-control)</li><li>[Deployment &amp; Scaling](#16-deployment--scaling)</li><li>[Knowledge &amp; Notes System](#17-knowledge--notes-system)</li><li>[Folder Structure](#18-folder-structure)</li><li>[Build vs Outsource vs Custom](#19-build-vs-outsource-vs-custom)</li><li>[MVP Roadmap](#20-mvp-roadmap)</li><li>[Phase-Wise Build Plan](#21-phase-wise-build-plan)</li><li>[Development Milestones](#22-development-milestones)</li><li>[Step-by-Step Build Order](#23-step-by-step-build-order)</li><li>[Architecture Decisions](#24-architecture-decisions)</li></ol>
+<hr>
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<table>
+<tr><th>Principle</th><th>Decision</th></tr>
+<tr><td>**Data ownership**</td><td>All conversations, memory, notes, embeddings, and business data live in **your** PostgreSQL + object storage</td></tr>
+<tr><td>**Model neutrality**</td><td>OpenRouter as primary gateway; direct provider adapters as fallback</td></tr>
+<tr><td>**Separation of concerns**</td><td>**Memory** = AI personalization; **Notes** = user-owned knowledge artifacts</td></tr>
+<tr><td>**Build strategy**</td><td>MVP on PostgreSQL + pgvector + Redis; evolve to lakehouse (S3 + warehouse) for analytics at scale</td></tr>
+<tr><td>**Integration pattern**</td><td>OAuth connectors + MCP-style plugin runtime for future extensibility</td></tr>
+</table>
+<h3 id="use-cases-supported">Use Cases Supported</h3>
+<ul><li><strong>Study:</strong> Flashcards, study guides, revision sheets from conversations</li><li><strong>Trading:</strong> Research notes, market analysis, saved insights with semantic search</li><li><strong>Excel/Data Analytics:</strong> Document RAG over spreadsheets, Q&amp;A on uploaded data</li><li><strong>Research:</strong> Web search + notes + long-term memory for storage systems and technical topics</li><li><strong>General Q&amp;A:</strong> Multi-model chat with memory and citations</li></ul>
+<hr>
+<h2 id="2-system-architecture">2. System Architecture</h2>
+<h3 id="21-architecture-diagram">2.1 Architecture Diagram</h3>
+<pre><code class="">┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           CLIENT LAYER (React SPA)                              │
+│  Chat │ Notes │ Knowledge Base │ Documents │ Integrations │ Settings │ Agents  │
+└───────────────────────────────────┬─────────────────────────────────────────────┘
+                                    │ HTTPS / WebSocket
+┌───────────────────────────────────▼─────────────────────────────────────────────┐
+│                         API GATEWAY (Kong / AWS ALB + FastAPI)                  │
+│              Auth (JWT) │ Rate Limit │ Tenant Isolation │ Request Tracing         │
+└───────────────────────────────────┬─────────────────────────────────────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        │                           │                           │
+┌───────▼────────┐        ┌─────────▼─────────┐       ┌────────▼────────┐
+│  Chat Service  │        │  Notes Service    │       │ Integration Svc │
+│  (orchestrator)│        │  (CRUD + graph)   │       │ (OAuth + sync)  │
+└───────┬────────┘        └─────────┬─────────┘       └────────┬────────┘
+        │                           │                           │
+┌───────▼─────────▼──┐   ┌──────────▼──────────┐  ┌───▼─────────▼───┐
+│   AI Orchestrator  │   │   RAG Pipeline      │  │  Connector Hub    │
+│   (model router)   │   │ ingest/retrieve     │  │ Gmail/Slack/...   │
+└───────┬────────────┘   └──────────┬──────────┘  └───┬─────────────┘
+        │                             │                  │
+┌───────▼────────────┐   ┌────────────▼──────────┐      │
+│  Model Gateway     │   │  Embedding Service    │      │
+│  (OpenRouter +     │   │  (batch + realtime)   │      │
+│   direct adapters) │   └────────────┬──────────┘      │
+└───────┬────────────┘                │                  │
+        │                             │                  │
+┌───────▼────────────┐   ┌────────────▼──────────┐  ┌───▼───────────────┐
+│  Memory Service    │   │  Vector Index         │  │  Web Search Svc     │
+│  STM + LTM + rules │   │  (pgvector → Qdrant)  │  │  Tavily/Serper/...  │
+└───────┬────────────┘   └────────────┬──────────┘  └───────────────────┘
+        │                             │
+┌───────▼─────────────────────────────▼─────────────────────────────────────────┐
+│                              DATA LAYER                                         │
+│  PostgreSQL (OLTP) │ pgvector │ Redis (cache/queue/session) │ S3 (blobs/docs)  │
+│  Future: S3 data lake + Snowflake/BigQuery/DuckDB for analytics &amp; batch RAG    │
+└─────────────────────────────────────────────────────────────────────────────────┘
+        │
+┌───────▼─────────────────────────────────────────────────────────────────────────┐
+│  ASYNC WORKERS (Celery / BullMQ)                                                │
+│  doc ingestion │ embedding jobs │ memory extraction │ integration sync │ agents │
+└─────────────────────────────────────────────────────────────────────────────────┘
+        │
+┌───────▼─────────────────────────────────────────────────────────────────────────┐
+│  OBSERVABILITY: OpenTelemetry │ Prometheus │ Grafana │ structured logs            │
+└─────────────────────────────────────────────────────────────────────────────────┘</code></pre>
+<h3 id="22-chat-request-flow">2.2 Chat Request Flow</h3>
+<pre><code class="">User message
+  → API Gateway (auth, rate limit)
+  → Chat Service loads conversation + user profile
+  → Memory Service: STM window + LTM retrieval (semantic)
+  → RAG Service: retrieve from documents + notes (if enabled)
+  → Optional: Web Search (if tool triggered or user setting)
+  → Optional: Integration context (recent Gmail, Slack threads)
+  → Prompt Assembler (system + memory + RAG + tools + user message)
+  → Model Router (user-selected model or auto policy)
+  → OpenRouter / direct provider (stream response)
+  → Stream to client via WebSocket/SSE
+  → Post-turn: persist message, extract memories, suggest note saves, log analytics</code></pre>
+<hr>
+<h2 id="3-functional-requirements">3. Functional Requirements</h2>
+<h3 id="31-core-platform">3.1 Core Platform</h3>
+<table>
+<tr><th>ID</th><th>Requirement</th><th>Priority</th></tr>
+<tr><td>FR-01</td><td>Users can authenticate and manage profiles</td><td>P0</td></tr>
+<tr><td>FR-02</td><td>Multi-model chat with streaming responses</td><td>P0</td></tr>
+<tr><td>FR-03</td><td>Runtime model selection per conversation or message</td><td>P0</td></tr>
+<tr><td>FR-04</td><td>Conversation history persisted and searchable</td><td>P0</td></tr>
+<tr><td>FR-05</td><td>Short-term context window management</td><td>P0</td></tr>
+<tr><td>FR-06</td><td>Long-term memory extraction and retrieval</td><td>P0</td></tr>
+<tr><td>FR-07</td><td>Document upload and custom RAG</td><td>P0</td></tr>
+<tr><td>FR-08</td><td>Notes system (CRUD, tags, folders, backlinks)</td><td>P0</td></tr>
+<tr><td>FR-09</td><td>Save messages/conversations to notes</td><td>P1</td></tr>
+<tr><td>FR-10</td><td>AI-generated structured notes (summaries, flashcards, etc.)</td><td>P1</td></tr>
+<tr><td>FR-11</td><td>Web search when required</td><td>P1</td></tr>
+<tr><td>FR-12</td><td>Analytics dashboard (usage, cost, latency)</td><td>P1</td></tr>
+<tr><td>FR-13</td><td>OAuth integrations (Gmail, Slack, Notion, Drive, Calendar)</td><td>P2</td></tr>
+<tr><td>FR-14</td><td>AI agents with tool use</td><td>P2</td></tr>
+<tr><td>FR-15</td><td>MCP-style plugin connectors</td><td>P3</td></tr>
+</table>
+<h3 id="32-chat-features">3.2 Chat Features</h3>
+<ul><li>Create/rename/archive/delete conversations</li><li>Branch conversations (fork from message)</li><li>Attach documents to conversations</li><li>Toggle RAG sources (documents, notes, web)</li><li>Select model per chat or override per message</li><li>Regenerate, edit, delete messages</li><li>Export conversation</li></ul>
+<h3 id="33-memory-features">3.3 Memory Features</h3>
+<ul><li>Extract user preferences, facts, goals from conversations</li><li>Semantic recall of older conversations</li><li>Memory confidence scores and decay</li><li>User can view, edit, pin, or delete memories</li><li><strong>Explicit separation from Notes</strong></li></ul>
+<h3 id="34-notes-features">3.4 Notes Features</h3>
+<ul><li>Rich text / Markdown notes</li><li>Folders, collections, tags, backlinks (wiki-style <code>[[links]]</code>)</li><li>Full-text + semantic search</li><li>Auto-save from chat (message, summary, insight)</li><li>AI transforms: study guide, flashcards, interview Qs, revision sheet</li><li>Version history</li><li>Embeddings for RAG (notes are retrieval sources, not memory)</li></ul>
+<h3 id="35-documents-knowledge-base">3.5 Documents &amp; Knowledge Base</h3>
+<ul><li>Upload PDF, DOCX, TXT, MD, HTML, XLSX/CSV</li><li>Folder organization</li><li>Chunking, embedding, indexing pipeline</li><li>Citation in chat responses</li><li>Re-index on update</li></ul>
+<hr>
+<h2 id="4-non-functional-requirements">4. Non-Functional Requirements</h2>
+<table>
+<tr><th>Category</th><th>Requirement</th><th>Target</th></tr>
+<tr><td>**Availability**</td><td>Core chat API uptime</td><td>99.9%</td></tr>
+<tr><td>**Latency**</td><td>Time to first token (p95)</td><td>< 2s (excl. model)</td></tr>
+<tr><td>**Latency**</td><td>RAG retrieval (p95)</td><td>< 300ms</td></tr>
+<tr><td>**Scalability**</td><td>Concurrent users (MVP)</td><td>100; scale to 10K+</td></tr>
+<tr><td>**Data residency**</td><td>User data in owned DB/S3</td><td>Full control</td></tr>
+<tr><td>**Security**</td><td>Encryption at rest + in transit</td><td>TLS 1.3, AES-256</td></tr>
+<tr><td>**Compliance**</td><td>GDPR delete/export</td><td>Right to erasure</td></tr>
+<tr><td>**Observability**</td><td>Distributed tracing</td><td>100% API requests traced</td></tr>
+<tr><td>**Cost**</td><td>Model spend visibility</td><td>Per-user, per-model</td></tr>
+<tr><td>**Portability**</td><td>Provider swap</td><td>< 1 day config change</td></tr>
+</table>
+<hr>
+<h2 id="5-technology-stack">5. Technology Stack</h2>
+<table>
+<tr><th>Layer</th><th>Recommendation</th><th>Rationale</th></tr>
+<tr><td>**Frontend**</td><td>React + TypeScript + Vite</td><td>Rich ecosystem, your preference</td></tr>
+<tr><td>**UI**</td><td>Tailwind + shadcn/ui</td><td>Fast, consistent Personal OS feel</td></tr>
+<tr><td>**State**</td><td>TanStack Query + Zustand</td><td>Server state + local UI state</td></tr>
+<tr><td>**Backend**</td><td>**FastAPI (Python)**</td><td>Best for AI/ML pipelines, async, typing</td></tr>
+<tr><td>**Workers**</td><td>Celery + Redis</td><td>Doc ingestion, embeddings, sync jobs</td></tr>
+<tr><td>**OLTP DB**</td><td>PostgreSQL 16 + pgvector</td><td>Single store for MVP; you own everything</td></tr>
+<tr><td>**Cache/Queue**</td><td>Redis 7</td><td>Sessions, rate limits, job queues</td></tr>
+<tr><td>**Object storage**</td><td>S3 / MinIO</td><td>Documents, exports, raw ingestion</td></tr>
+<tr><td>**Vector (scale)**</td><td>pgvector → Qdrant (optional)</td><td>Start simple, migrate at ~10M vectors</td></tr>
+<tr><td>**Model gateway**</td><td>OpenRouter + LiteLLM</td><td>Unified API, fallback, cost tracking</td></tr>
+<tr><td>**Search**</td><td>Tavily or Serper + Brave fallback</td><td>Production web search APIs</td></tr>
+<tr><td>**Auth**</td><td>Clerk or Auth0 (MVP) → custom later</td><td>Speed to market</td></tr>
+<tr><td>**Analytics warehouse**</td><td>ClickHouse or DuckDB on S3 (Phase 3)</td><td>Cost-effective OLAP</td></tr>
+</table>
+<hr>
+<h2 id="6-data-architecture-tradeoffs">6. Data Architecture Tradeoffs</h2>
+<h3 id="postgresql-pgvector-vs-s3-snowflake-like">PostgreSQL + pgvector vs S3 + Snowflake-like</h3>
+<table>
+<tr><th>Dimension</th><th>PostgreSQL + pgvector</th><th>S3 + Warehouse (Snowflake-like)</th></tr>
+<tr><td>**Best for**</td><td>MVP → mid-scale (< 50M vectors)</td><td>Analytics, batch RAG, multi-TB docs</td></tr>
+<tr><td>**Latency**</td><td>Low (ms retrieval)</td><td>Higher (query spin-up)</td></tr>
+<tr><td>**Ops complexity**</td><td>Low</td><td>High</td></tr>
+<tr><td>**Cost at small scale**</td><td>Low ($50–200/mo)</td><td>High ($500+/mo minimum)</td></tr>
+<tr><td>**Transactional integrity**</td><td>Excellent (ACID)</td><td>Eventual (ELT pipelines)</td></tr>
+<tr><td>**Vector search**</td><td>Good up to ~10M vectors</td><td>Not native; needs external vector DB</td></tr>
+<tr><td>**Your use case fit**</td><td>**Start here**</td><td>Add for analytics + cold archive</td></tr>
+</table>
+<h3 id="recommended-hybrid-evolution">Recommended Hybrid Evolution</h3>
+<pre><code class="">Phase 1: PostgreSQL + pgvector + S3 (hot path)
+Phase 2: S3 data lake for raw docs + embedding parquet files
+Phase 3: ClickHouse/DuckDB for analytics; Snowflake only if enterprise BI needed
+Phase 4: Dedicated vector DB (Qdrant) if pgvector limits hit</code></pre>
+<p><strong>Rule:</strong> Keep OLTP (users, chats, notes, memories) in PostgreSQL forever. Only offload <strong>analytics</strong> and <strong>cold document archive</strong> to lakehouse.</p>
+<hr>
+<h2 id="7-database-design">7. Database Design</h2>
+<h3 id="71-entity-relationship">7.1 Entity Relationship</h3>
+<pre><code class="">users ──┬── user_profiles
+        ├── conversations ── messages
+        ├── user_memories
+        ├── notes ── note_links, note_tags, note_versions
+        ├── documents ── document_chunks ── chunk_embeddings
+        ├── integrations ── integration_tokens, sync_records
+        ├── model_preferences
+        └── analytics_events</code></pre>
+<h3 id="72-core-tables">7.2 Core Tables</h3>
+<h4 id="users-profiles">Users &amp; Profiles</h4>
+<pre><code class="sql">CREATE TABLE users (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email         TEXT UNIQUE NOT NULL,
+  password_hash TEXT,
+  created_at    TIMESTAMPTZ DEFAULT now(),
+  updated_at    TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE user_profiles (
+  user_id       UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  display_name  TEXT,
+  timezone      TEXT DEFAULT 'UTC',
+  locale        TEXT DEFAULT 'en',
+  preferences   JSONB DEFAULT '{}',
+  created_at    TIMESTAMPTZ DEFAULT now(),
+  updated_at    TIMESTAMPTZ DEFAULT now()
+);</code></pre>
+<h4 id="conversations-messages">Conversations &amp; Messages</h4>
+<pre><code class="sql">CREATE TABLE conversations (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id       UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  title         TEXT,
+  model_id      TEXT,
+  settings      JSONB DEFAULT '{}',
+  is_archived   BOOLEAN DEFAULT false,
+  created_at    TIMESTAMPTZ DEFAULT now(),
+  updated_at    TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE messages (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  conversation_id UUID NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+  role            TEXT NOT NULL CHECK (role IN ('user','assistant','system','tool')),
+  content         TEXT NOT NULL,
+  content_json    JSONB,
+  model_id        TEXT,
+  token_count     INT,
+  metadata        JSONB DEFAULT '{}',
+  parent_id       UUID REFERENCES messages(id),
+  created_at      TIMESTAMPTZ DEFAULT now()
+);</code></pre>
+<h4 id="user-memories-ai-personalization-not-notes">User Memories (AI personalization — NOT notes)</h4>
+<pre><code class="sql">CREATE TABLE user_memories (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id         UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  memory_type     TEXT NOT NULL,
+  content         TEXT NOT NULL,
+  source_type     TEXT,
+  source_id       UUID,
+  confidence      REAL DEFAULT 0.8 CHECK (confidence BETWEEN 0 AND 1),
+  relevance_score REAL DEFAULT 1.0,
+  is_pinned       BOOLEAN DEFAULT false,
+  expires_at      TIMESTAMPTZ,
+  embedding       vector(1536),
+  created_at      TIMESTAMPTZ DEFAULT now(),
+  updated_at      TIMESTAMPTZ DEFAULT now(),
+  deleted_at      TIMESTAMPTZ
+);</code></pre>
+<h4 id="notes-user-owned-knowledge-artifacts">Notes (user-owned knowledge artifacts)</h4>
+<pre><code class="sql">CREATE TABLE notes (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id         UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  title           TEXT NOT NULL,
+  content         TEXT,
+  content_plain   TEXT,
+  folder_id       UUID REFERENCES note_folders(id),
+  note_type       TEXT DEFAULT 'note',
+  source_type     TEXT,
+  source_id       UUID,
+  is_pinned       BOOLEAN DEFAULT false,
+  metadata        JSONB DEFAULT '{}',
+  created_at      TIMESTAMPTZ DEFAULT now(),
+  updated_at      TIMESTAMPTZ DEFAULT now(),
+  deleted_at      TIMESTAMPTZ
+);
+
+CREATE TABLE note_folders (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id     UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  parent_id   UUID REFERENCES note_folders(id),
+  name        TEXT NOT NULL,
+  sort_order  INT DEFAULT 0
+);
+
+CREATE TABLE note_tags (
+  note_id UUID REFERENCES notes(id) ON DELETE CASCADE,
+  tag     TEXT NOT NULL,
+  PRIMARY KEY (note_id, tag)
+);
+
+CREATE TABLE note_links (
+  id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  source_note_id UUID NOT NULL REFERENCES notes(id) ON DELETE CASCADE,
+  target_note_id UUID NOT NULL REFERENCES notes(id) ON DELETE CASCADE,
+  link_type      TEXT DEFAULT 'backlink',
+  UNIQUE(source_note_id, target_note_id)
+);
+
+CREATE TABLE note_chunks (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  note_id     UUID NOT NULL REFERENCES notes(id) ON DELETE CASCADE,
+  chunk_index INT NOT NULL,
+  content     TEXT NOT NULL,
+  metadata    JSONB DEFAULT '{}',
+  embedding   vector(1536)
+);</code></pre>
+<h4 id="documents-rag">Documents &amp; RAG</h4>
+<pre><code class="sql">CREATE TABLE documents (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id       UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  filename      TEXT NOT NULL,
+  mime_type     TEXT,
+  s3_key        TEXT NOT NULL,
+  status        TEXT DEFAULT 'pending',
+  byte_size     BIGINT,
+  metadata      JSONB DEFAULT '{}',
+  created_at    TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE document_chunks (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  document_id   UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  chunk_index   INT NOT NULL,
+  content       TEXT NOT NULL,
+  page_number   INT,
+  metadata      JSONB DEFAULT '{}',
+  embedding     vector(1536)
+);
+
+CREATE TABLE retrieval_logs (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  message_id      UUID REFERENCES messages(id),
+  source_type     TEXT NOT NULL,
+  source_id       UUID,
+  chunk_id        UUID,
+  score           REAL,
+  rank            INT,
+  created_at      TIMESTAMPTZ DEFAULT now()
+);</code></pre>
+<h4 id="model-routing-analytics">Model Routing &amp; Analytics</h4>
+<pre><code class="sql">CREATE TABLE model_registry (
+  id              TEXT PRIMARY KEY,
+  provider        TEXT NOT NULL,
+  display_name    TEXT,
+  capabilities    JSONB DEFAULT '[]',
+  cost_per_1k_in  REAL,
+  cost_per_1k_out REAL,
+  avg_latency_ms  INT,
+  is_active       BOOLEAN DEFAULT true
+);
+
+CREATE TABLE usage_events (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id       UUID REFERENCES users(id),
+  event_type    TEXT NOT NULL,
+  model_id      TEXT,
+  tokens_in     INT,
+  tokens_out    INT,
+  cost_usd      REAL,
+  latency_ms    INT,
+  metadata      JSONB DEFAULT '{}',
+  created_at    TIMESTAMPTZ DEFAULT now()
+);</code></pre>
+<h4 id="integrations">Integrations</h4>
+<pre><code class="sql">CREATE TABLE integrations (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id       UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  provider      TEXT NOT NULL,
+  status        TEXT DEFAULT 'connected',
+  scopes        TEXT[],
+  metadata      JSONB DEFAULT '{}',
+  created_at    TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(user_id, provider)
+);
+
+CREATE TABLE integration_sync_records (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  integration_id  UUID REFERENCES integrations(id) ON DELETE CASCADE,
+  external_id     TEXT NOT NULL,
+  resource_type   TEXT,
+  title           TEXT,
+  snippet         TEXT,
+  synced_at       TIMESTAMPTZ DEFAULT now(),
+  metadata        JSONB DEFAULT '{}',
+  UNIQUE(integration_id, external_id)
+);</code></pre>
+<hr>
+<h2 id="8-memory-architecture">8. Memory Architecture</h2>
+<h3 id="81-memory-layers">8.1 Memory Layers</h3>
+<table>
+<tr><th>Layer</th><th>Storage</th><th>TTL</th><th>Purpose</th></tr>
+<tr><td>**STM (Short-Term)**</td><td>Redis + last N messages in PG</td><td>Session / last 20–50 msgs</td><td>Immediate chat context</td></tr>
+<tr><td>**Working Memory**</td><td>Assembled per request</td><td>Ephemeral</td><td>Merged STM + retrieved LTM + RAG</td></tr>
+<tr><td>**LTM (Long-Term)**</td><td>`user_memories` + embeddings</td><td>Durable</td><td>Preferences, facts, goals</td></tr>
+<tr><td>**Episodic**</td><td>Conversation embeddings (optional)</td><td>Durable</td><td>Semantic recall of past chats</td></tr>
+</table>
+<h3 id="82-memory-vs-notes-critical-separation">8.2 Memory vs Notes — Critical Separation</h3>
+<table>
+<tr><th>Aspect</th><th>Memory</th><th>Notes</th></tr>
+<tr><td>**Owner**</td><td>Platform (AI context)</td><td>User (knowledge artifact)</td></tr>
+<tr><td>**Purpose**</td><td>Personalize AI responses</td><td>Organize & retain knowledge</td></tr>
+<tr><td>**User control**</td><td>View/edit/delete</td><td>Full CRUD + organization</td></tr>
+<tr><td>**RAG role**</td><td>Injected as system context</td><td>Retrieved as citation sources</td></tr>
+<tr><td>**Auto-created**</td><td>Yes (extraction pipeline)</td><td>Opt-in or explicit save</td></tr>
+</table>
+<h3 id="83-memory-write-rules">8.3 Memory Write Rules</h3>
+<p><strong>WRITE when:</strong></p>
+<ul><li>User explicitly states preference ("I prefer Python", "Call me Alex")</li><li>User states durable fact ("I work at Acme", "My timezone is IST")</li><li>User sets goal ("I'm learning Rust", "Researching new storage systems")</li><li>Assistant infers high-confidence preference (confidence &gt;= 0.85) AND user didn't contradict</li></ul>
+<p><strong>DO NOT WRITE when:</strong></p>
+<ul><li>Transient context ("I'm tired today")</li><li>Hypotheticals ("If I were...")</li><li>Low confidence (&lt; 0.6)</li><li>Duplicate of existing memory (cosine similarity &gt; 0.92)</li><li>User disabled memory for conversation</li></ul>
+<h3 id="84-memory-update-rules">8.4 Memory Update Rules</h3>
+<p><strong>UPDATE when:</strong></p>
+<ul><li>New info contradicts old → supersede (soft-delete old, create new with higher confidence)</li><li>User edits memory in UI → set confidence = 1.0, source = explicit</li><li>Reinforcement: same fact mentioned again → boost confidence (+0.05, cap 1.0)</li></ul>
+<p><strong>DECAY:</strong></p>
+<ul><li>Unpinned memories: relevance_score *= 0.99 per 30 days without retrieval</li><li>Retrieved memories: relevance_score = min(1.0, relevance_score + 0.1)</li></ul>
+<h3 id="85-memory-deletion-rules">8.5 Memory Deletion Rules</h3>
+<p><strong>DELETE when:</strong></p>
+<ul><li>User explicitly deletes</li><li>GDPR account deletion (cascade)</li><li>Superseded by contradiction</li><li>Expires_at reached (for temporary context memories)</li><li>confidence &lt; 0.3 AND not pinned AND age &gt; 90 days</li></ul>
+<h3 id="86-memory-retrieval-flow">8.6 Memory Retrieval Flow</h3>
+<pre><code class="">1. Embed current user message
+2. Vector search user_memories (top 10, min score 0.75)
+3. Boost: pinned (+0.2), recent (+0.1), high confidence (+0.1)
+4. Optional: episodic conversation search (top 3 conversation summaries)
+5. Deduplicate and rank → inject top 5–8 into system prompt (~500 tokens max)</code></pre>
+<h3 id="87-post-turn-memory-extraction-async-worker">8.7 Post-Turn Memory Extraction (Async Worker)</h3>
+<pre><code class="">After assistant response:
+  1. LLM structured extraction (JSON schema: memories[])
+  2. Validate against write rules
+  3. Dedupe against existing embeddings
+  4. Insert/update user_memories
+  5. Generate embeddings (batch)</code></pre>
+<hr>
+<h2 id="9-rag-architecture">9. RAG Architecture</h2>
+<h3 id="91-pipeline">9.1 Pipeline</h3>
+<pre><code class="">Ingest → Parse → Chunk → Embed → Index → Retrieve → Rerank → Assemble → Cite</code></pre>
+<h3 id="92-document-ingestion">9.2 Document Ingestion</h3>
+<table>
+<tr><th>Step</th><th>Implementation</th></tr>
+<tr><td>Upload</td><td>Presigned S3 URL → `documents` row (status=pending)</td></tr>
+<tr><td>Queue</td><td>Celery job `process_document`</td></tr>
+<tr><td>Parse</td><td>Unstructured.io or pdfplumber + python-docx + openpyxl (Excel)</td></tr>
+<tr><td>Clean</td><td>Strip headers/footers, normalize whitespace</td></tr>
+<tr><td>Metadata</td><td>page, section, source filename, user_id</td></tr>
+</table>
+<h3 id="93-chunking-strategy">9.3 Chunking Strategy</h3>
+<table>
+<tr><th>Content Type</th><th>Strategy</th><th>Size</th></tr>
+<tr><td>PDF/DOCX</td><td>Recursive character splitter</td><td>512 tokens, 64 overlap</td></tr>
+<tr><td>Markdown/Notes</td><td>Header-aware (H1/H2 boundaries)</td><td>400–600 tokens</td></tr>
+<tr><td>Excel/CSV</td><td>Per-sheet or row-group chunks</td><td>300 tokens</td></tr>
+<tr><td>Code</td><td>AST-aware or function-level</td><td>Variable</td></tr>
+<tr><td>Email (Gmail)</td><td>Per-thread or per-message</td><td>300 tokens</td></tr>
+</table>
+<h3 id="94-embedding-generation">9.4 Embedding Generation</h3>
+<ul><li><strong>Model:</strong> <code>text-embedding-3-small</code> via OpenRouter</li><li><strong>Batch:</strong> 100 chunks per API call</li><li><strong>Store:</strong> <code>document_chunks.embedding</code>, <code>note_chunks.embedding</code></li><li><strong>Versioning:</strong> <code>embedding_model</code> column for re-index migrations</li></ul>
+<h3 id="95-retrieval">9.5 Retrieval</h3>
+<pre><code class="">Query embedding
+  → Parallel search:
+      - document_chunks (top 20)
+      - note_chunks (top 10) [if notes RAG enabled]
+      - integration_sync_records (FTS top 5) [if integrations enabled]
+  → Merge candidates (max 30)
+  → Metadata filter: user_id, not deleted, status=ready</code></pre>
+<h3 id="96-reranking">9.6 Reranking</h3>
+<ul><li><strong>MVP:</strong> Cross-encoder via Cohere Rerank API or <code>bge-reranker-base</code></li><li><strong>Input:</strong> query + top 30 chunks</li><li><strong>Output:</strong> top 5–8 chunks (score threshold 0.5)</li></ul>
+<h3 id="97-prompt-assembly">9.7 Prompt Assembly</h3>
+<pre><code class="">[System]
+You are a personal AI assistant. Use the following context when relevant.
+Cite sources using [1], [2] notation.
+
+[User Memory]
+{memories}
+
+[Retrieved Context]
+[1] (document: report.pdf, p.3) {chunk text}
+[2] (note: "Rust Study Guide") {chunk text}
+
+[Conversation History]
+{last N messages}
+
+[User Message]
+{message}</code></pre>
+<h3 id="98-citation-traceability">9.8 Citation / Traceability</h3>
+<ul><li>Every retrieved chunk logged in <code>retrieval_logs</code></li><li>Assistant <code>metadata.citations[]</code> on message</li><li>UI renders clickable citations → open document viewer or note</li></ul>
+<hr>
+<h2 id="10-model-routing-fallback">10. Model Routing &amp; Fallback</h2>
+<h3 id="101-provider-abstraction">10.1 Provider Abstraction</h3>
+<p>Use <strong>LiteLLM</strong> or thin custom adapter with unified interface:</p>
+<pre><code class="python">async def complete(model_id: str, messages: list, stream: bool = True):
+    provider, model = parse_model_id(model_id)
+    # openrouter/anthropic/claude-3.5-sonnet
+    ...</code></pre>
+<h3 id="102-routing-policies">10.2 Routing Policies</h3>
+<table>
+<tr><th>Policy</th><th>Behavior</th></tr>
+<tr><td>**manual**</td><td>User-selected model only; fallback on error</td></tr>
+<tr><td>**cost**</td><td>Route to cheapest capable model for task type</td></tr>
+<tr><td>**latency**</td><td>Route to lowest p95 latency model</td></tr>
+<tr><td>**auto**</td><td>Task classifier picks model (simple → small, complex → large)</td></tr>
+<tr><td>**user_override**</td><td>Per-message model override always wins</td></tr>
+</table>
+<h3 id="103-fallback-chain">10.3 Fallback Chain</h3>
+<pre><code class="">Primary: user-selected model
+  ↓ (429, 5xx, timeout 30s)
+Fallback 1: user.fallback_chain[0] or platform default
+  ↓
+Fallback 2: user.fallback_chain[1]
+  ↓
+Last resort: gpt-4o-mini / claude-haiku (fast, cheap, reliable)</code></pre>
+<h3 id="104-error-handling">10.4 Error Handling</h3>
+<table>
+<tr><th>Error</th><th>Action</th></tr>
+<tr><td>429 Rate limit</td><td>Exponential backoff (1s, 2s, 4s) → fallback model</td></tr>
+<tr><td>503 Unavailable</td><td>Immediate fallback</td></tr>
+<tr><td>Context length exceeded</td><td>Summarize history → retry with smaller model</td></tr>
+<tr><td>Invalid API key</td><td>Alert ops; fail with clear user message</td></tr>
+</table>
+<h3 id="105-model-registry-seed-data">10.5 Model Registry (Seed Data)</h3>
+<table>
+<tr><th>model_id</th><th>Provider</th><th>Use Case</th></tr>
+<tr><td>openrouter/anthropic/claude-3.5-sonnet</td><td>Anthropic</td><td>Default quality</td></tr>
+<tr><td>openrouter/openai/gpt-4o</td><td>OpenAI</td><td>Vision, tools</td></tr>
+<tr><td>openrouter/google/gemini-2.0-flash</td><td>Google</td><td>Fast, cheap</td></tr>
+<tr><td>openrouter/meta-llama/llama-3.3-70b</td><td>Groq via OR</td><td>Open, fast</td></tr>
+<tr><td>openrouter/deepseek/deepseek-chat</td><td>DeepSeek</td><td>Cost-efficient reasoning</td></tr>
+</table>
+<hr>
+<h2 id="11-web-search-integration">11. Web Search Integration</h2>
+<h3 id="111-when-to-search">11.1 When to Search</h3>
+<table>
+<tr><th>Trigger</th><th>Mechanism</th></tr>
+<tr><td>User enables "Web search" toggle</td><td>Always augment query</td></tr>
+<tr><td>Model tool call `web_search`</td><td>Agent invokes search tool</td></tr>
+<tr><td>Heuristic</td><td>Query contains "latest", "today", "current", year 2025+</td></tr>
+<tr><td>User slash command</td><td>`/search {query}`</td></tr>
+</table>
+<h3 id="112-provider-stack">11.2 Provider Stack</h3>
+<table>
+<tr><th>Priority</th><th>Provider</th><th>Why</th></tr>
+<tr><td>Primary</td><td>**Tavily API**</td><td>Built for AI agents, clean snippets</td></tr>
+<tr><td>Fallback</td><td>Serper (Google SERP)</td><td>Broad coverage</td></tr>
+<tr><td>Fallback 2</td><td>Brave Search API</td><td>Privacy-friendly</td></tr>
+</table>
+<h3 id="113-flow">11.3 Flow</h3>
+<pre><code class="">1. Rewrite query (optional LLM step)
+2. Call search API (top 5 results)
+3. Fetch page content (readability extraction, max 3 pages)
+4. Chunk + inject as [Web: title](url) context
+5. Log in retrieval_logs (source_type=web)
+6. Cite URLs in response</code></pre>
+<h3 id="114-caching">11.4 Caching</h3>
+<ul><li>Redis cache: <code>search:{hash(query)}</code> TTL 1 hour</li></ul>
+<hr>
+<h2 id="12-third-party-integrations">12. Third-Party Integrations</h2>
+<h3 id="121-per-integration-plan">12.1 Per-Integration Plan</h3>
+<table>
+<tr><th>Integration</th><th>OAuth Scopes</th><th>Sync Strategy</th><th>Chat Use</th></tr>
+<tr><td>**Gmail**</td><td>`gmail.readonly`</td><td>Incremental sync via historyId</td><td>Summarize unread, search emails</td></tr>
+<tr><td>**Slack**</td><td>`channels:history`, `users:read`</td><td>Webhook + periodic backfill</td><td>Channel summaries, search</td></tr>
+<tr><td>**Notion**</td><td>`read_content`</td><td>Poll changed pages (cursor)</td><td>Import pages to notes/docs</td></tr>
+<tr><td>**Google Drive**</td><td>`drive.readonly`</td><td>Watch API or poll</td><td>Document ingestion to RAG</td></tr>
+<tr><td>**Google Calendar**</td><td>`calendar.readonly`</td><td>Sync next 30 days events</td><td>Calendar Q&A</td></tr>
+</table>
+<h3 id="122-mcp-style-plugin-runtime-phase-3">12.2 MCP-Style Plugin Runtime (Phase 3+)</h3>
+<pre><code class="">plugins/
+  manifest.json       # name, version, permissions, tools[]
+  connector.py        # implements search, fetch, action handlers
+
+Runtime:
+  - Sandboxed execution
+  - Permission model: read_email, write_calendar, etc.
+  - Tool registry exposed to AI Orchestrator</code></pre>
+<hr>
+<h2 id="13-analytics-architecture">13. Analytics Architecture</h2>
+<h3 id="131-event-collection">13.1 Event Collection</h3>
+<pre><code class="">Every API call → usage_events (PostgreSQL, hot)
+              → async flush → S3 parquet (cold, daily)
+              → ClickHouse (Phase 3, dashboards)</code></pre>
+<h3 id="132-key-metrics">13.2 Key Metrics</h3>
+<table>
+<tr><th>Dashboard</th><th>Metrics</th></tr>
+<tr><td>**Usage**</td><td>Messages/day, active users, conversations</td></tr>
+<tr><td>**Models**</td><td>Tokens in/out per model, cost USD</td></tr>
+<tr><td>**Performance**</td><td>p50/p95 latency (TTFT, total), error rate</td></tr>
+<tr><td>**RAG**</td><td>Retrieval count, avg chunks, rerank scores</td></tr>
+<tr><td>**Memory**</td><td>Memories created/updated/deleted, retrieval hit rate</td></tr>
+<tr><td>**Integrations**</td><td>Sync success rate, last sync time</td></tr>
+</table>
+<hr>
+<h2 id="14-api-design">14. API Design</h2>
+<h3 id="141-conventions">14.1 Conventions</h3>
+<ul><li>Base: <code>https://api.yourplatform.com/v1</code></li><li>Auth: <code>Authorization: Bearer &lt;jwt&gt;</code></li><li>Pagination: <code>?cursor=&amp;limit=20</code></li><li>Errors: RFC 7807 Problem Details</li></ul>
+<h3 id="142-core-endpoints">14.2 Core Endpoints</h3>
+<h4 id="auth-profile">Auth &amp; Profile</h4>
+<pre><code class="">POST   /auth/register
+POST   /auth/login
+GET    /users/me
+PATCH  /users/me/profile
+PUT    /users/me/preferences</code></pre>
+<h4 id="chat">Chat</h4>
+<pre><code class="">GET    /conversations
+POST   /conversations
+GET    /conversations/{id}
+PATCH  /conversations/{id}
+DELETE /conversations/{id}
+GET    /conversations/{id}/messages
+POST   /conversations/{id}/messages/stream
+POST   /conversations/{id}/messages/{msg_id}/regenerate</code></pre>
+<h4 id="models">Models</h4>
+<pre><code class="">GET    /models
+PUT    /users/me/model-preferences</code></pre>
+<h4 id="memory">Memory</h4>
+<pre><code class="">GET    /memories
+POST   /memories
+PATCH  /memories/{id}
+DELETE /memories/{id}
+POST   /memories/search</code></pre>
+<h4 id="notes">Notes</h4>
+<pre><code class="">GET    /notes
+POST   /notes
+GET    /notes/{id}
+PATCH  /notes/{id}
+DELETE /notes/{id}
+POST   /notes/from-message
+POST   /notes/ai-transform
+GET    /notes/search?q=&amp;semantic=true
+GET    /notes/graph</code></pre>
+<h4 id="documents-rag">Documents &amp; RAG</h4>
+<pre><code class="">POST   /documents/upload-url
+POST   /documents
+GET    /documents
+DELETE /documents/{id}
+POST   /documents/{id}/reindex</code></pre>
+<h4 id="integrations">Integrations</h4>
+<pre><code class="">GET    /integrations
+POST   /integrations/{provider}/connect
+DELETE /integrations/{provider}
+POST   /integrations/{provider}/sync</code></pre>
+<h4 id="analytics">Analytics</h4>
+<pre><code class="">GET    /analytics/usage?from=&amp;to=
+GET    /analytics/models
+GET    /analytics/costs</code></pre>
+<h4 id="web-search">Web Search</h4>
+<pre><code class="">POST   /search</code></pre>
+<hr>
+<h2 id="15-security-access-control">15. Security &amp; Access Control</h2>
+<h3 id="151-authentication">15.1 Authentication</h3>
+<ul><li>JWT access tokens (15 min) + refresh tokens (7 days)</li><li>Or Clerk/Auth0 for MVP</li><li>MFA optional (TOTP) in Phase 2</li></ul>
+<h3 id="152-authorization">15.2 Authorization</h3>
+<ul><li>Row-level security: every query scoped by <code>user_id</code></li><li>PostgreSQL RLS policies on all user tables</li><li>Integration tokens encrypted at application layer</li></ul>
+<h3 id="153-data-protection">15.3 Data Protection</h3>
+<table>
+<tr><th>Data</th><th>Protection</th></tr>
+<tr><td>At rest</td><td>PostgreSQL TDE or disk encryption; S3 SSE-S3</td></tr>
+<tr><td>In transit</td><td>TLS 1.3 everywhere</td></tr>
+<tr><td>Secrets</td><td>AWS Secrets Manager / Vault</td></tr>
+<tr><td>PII</td><td>Minimize storage; support export/delete</td></tr>
+</table>
+<h3 id="154-api-security">15.4 API Security</h3>
+<ul><li>Rate limiting: 60 req/min user, 10 chat/min</li><li>Input sanitization (XSS in notes — DOMPurify)</li><li>CORS whitelist</li><li>Prompt injection mitigation: separate system/user boundaries</li></ul>
+<hr>
+<h2 id="16-deployment-scaling">16. Deployment &amp; Scaling</h2>
+<h3 id="161-mvp-infrastructure">16.1 MVP Infrastructure</h3>
+<pre><code class="">Vercel / Cloudflare Pages  (React)
+Railway / Fly.io / ECS     (FastAPI + Celery workers)
+RDS PostgreSQL 16 + pgvector
+ElastiCache Redis
+S3 bucket</code></pre>
+<h3 id="162-production-scaling">16.2 Production Scaling</h3>
+<table>
+<tr><th>Component</th><th>Scaling</th></tr>
+<tr><td>API</td><td>Horizontal pods + HPA</td></tr>
+<tr><td>Workers</td><td>Queue-depth based scaling</td></tr>
+<tr><td>PostgreSQL</td><td>Read replicas; PgBouncer</td></tr>
+<tr><td>Redis</td><td>Cluster mode</td></tr>
+<tr><td>Vector search</td><td>Migrate to Qdrant if > 10M vectors</td></tr>
+</table>
+<h3 id="163-environments">16.3 Environments</h3>
+<p><code>dev</code> → <code>staging</code> → <code>production</code> (separate DB, S3, API keys)</p>
+<hr>
+<h2 id="17-knowledge-notes-system">17. Knowledge &amp; Notes System</h2>
+<h3 id="171-note-lifecycle">17.1 Note Lifecycle</h3>
+<pre><code class="">CREATE (manual | from_chat | from_doc | from_integration | ai_generated)
+  → DRAFT (auto-save every 2s)
+  → PUBLISHED (user saves)
+  → INDEXING (async chunk + embed)
+  → INDEXED (available for RAG + search)
+  → ARCHIVED / DELETED (soft delete, remove from RAG index)</code></pre>
+<h3 id="172-ai-transform-types">17.2 AI Transform Types</h3>
+<table>
+<tr><th>Transform</th><th>Output note_type</th><th>Structure</th></tr>
+<tr><td>Summary</td><td>summary</td><td>Bullet points</td></tr>
+<tr><td>Study guide</td><td>study_guide</td><td>Sections + key concepts</td></tr>
+<tr><td>Flashcards</td><td>flashcard</td><td>JSON {q, a}[] in metadata</td></tr>
+<tr><td>Interview Qs</td><td>interview_questions</td><td>Numbered list</td></tr>
+<tr><td>Revision sheet</td><td>revision_sheet</td><td>Compact facts table</td></tr>
+<tr><td>Knowledge article</td><td>article</td><td>Full structured doc</td></tr>
+</table>
+<h3 id="173-ux-flows">17.3 UX Flows</h3>
+<p><strong>Flow A: Save message to note</strong></p>
+<ol><li>User clicks "Save to Notes" on message</li><li>Modal: choose folder, add tags, edit title</li><li>Note created with source_type=chat</li><li>Toast: "Saved. Indexing for search..."</li></ol>
+<p><strong>Flow B: Conversation → Study guide</strong></p>
+<ol><li>User clicks "Create Study Guide" on conversation</li><li>Backend runs transform job (selected model)</li><li>New note appears in folder "AI Generated"</li></ol>
+<p><strong>Flow C: Semantic search across notes</strong></p>
+<ol><li>User types in Notes search bar</li><li>Toggle: Full-text / Semantic</li><li>Results ranked with highlights + backlinks preview</li></ol>
+<hr>
+<h2 id="18-folder-structure">18. Folder Structure</h2>
+<pre><code class="">paios/
+├── apps/
+│   ├── web/                    # React frontend
+│   │   └── src/features/
+│   │       ├── chat/
+│   │       ├── notes/
+│   │       ├── documents/
+│   │       ├── memory/
+│   │       ├── integrations/
+│   │       ├── analytics/
+│   │       └── settings/
+│   └── api/                    # FastAPI backend
+│       ├── app/
+│       │   ├── api/v1/
+│       │   ├── core/
+│       │   ├── services/
+│       │   │   ├── orchestrator.py
+│       │   │   ├── model_router.py
+│       │   │   ├── memory_service.py
+│       │   │   ├── rag_service.py
+│       │   │   ├── notes_service.py
+│       │   │   └── web_search_service.py
+│       │   ├── providers/
+│       │   ├── integrations/
+│       │   └── workers/
+│       ├── migrations/
+│       └── tests/
+├── packages/shared-types/
+├── infra/docker/
+├── docs/
+└── docker-compose.yml</code></pre>
+<hr>
+<h2 id="19-build-vs-outsource-vs-custom">19. Build vs Outsource vs Custom</h2>
+<table>
+<tr><th>Component</th><th>Build</th><th>Outsource</th><th>Why</th></tr>
+<tr><td>Chat UI</td><td>✅</td><td></td><td>Core differentiation</td></tr>
+<tr><td>Notes/KB UI</td><td>✅</td><td></td><td>Personal OS experience</td></tr>
+<tr><td>Orchestration pipeline</td><td>✅</td><td></td><td>Your IP; provider-agnostic</td></tr>
+<tr><td>Memory logic</td><td>✅</td><td></td><td>Core differentiation</td></tr>
+<tr><td>RAG pipeline</td><td>✅</td><td></td><td>Data ownership</td></tr>
+<tr><td>Model inference</td><td></td><td>✅ OpenRouter</td><td>Commodity</td></tr>
+<tr><td>Embeddings API</td><td></td><td>✅ OpenRouter</td><td>Or self-host later</td></tr>
+<tr><td>Web search</td><td>Thin wrapper</td><td>✅ Tavily</td><td>Not worth building</td></tr>
+<tr><td>Auth (MVP)</td><td></td><td>✅ Clerk</td><td>Speed</td></tr>
+<tr><td>Object storage</td><td></td><td>✅ S3/MinIO</td><td>Commodity</td></tr>
+<tr><td>Vector DB (MVP)</td><td>✅ pgvector</td><td></td><td>Owned data</td></tr>
+<tr><td>Document parsing</td><td>Thin wrapper</td><td>✅ Unstructured.io</td><td>Complex formats</td></tr>
+</table>
+<p><strong>Always custom-owned:</strong> conversations, messages, memories, notes, embeddings metadata, user profiles, retrieval logs.</p>
+<hr>
+<h2 id="20-mvp-roadmap-812-weeks">20. MVP Roadmap (8–12 Weeks)</h2>
+<h3 id="week-12-foundation">Week 1–2: Foundation</h3>
+<ul><li>Monorepo setup, Docker Compose (Postgres+pgvector, Redis, MinIO)</li><li>FastAPI skeleton, auth</li><li>React app shell: layout, routing, auth</li><li>DB migrations: users, conversations, messages</li></ul>
+<h3 id="week-34-chat-models">Week 3–4: Chat + Models</h3>
+<ul><li>OpenRouter integration via LiteLLM</li><li>Model registry + user model selection</li><li>Streaming chat (SSE)</li><li>Conversation CRUD</li><li>Basic usage logging</li></ul>
+<h3 id="week-56-memory">Week 5–6: Memory</h3>
+<ul><li>STM: last N messages</li><li>Memory extraction worker</li><li>user_memories CRUD UI</li><li>Semantic memory retrieval in chat</li></ul>
+<h3 id="week-78-rag-documents">Week 7–8: RAG + Documents</h3>
+<ul><li>S3 upload flow</li><li>Document parsing + chunking worker</li><li>Embedding pipeline</li><li>RAG retrieval + citations in chat</li><li>Document management UI</li></ul>
+<h3 id="week-910-notes">Week 9–10: Notes</h3>
+<ul><li>Notes CRUD, folders, tags</li><li>Save message to note</li><li>Note chunking + embedding</li><li>Full-text + semantic search</li><li>AI transform: summary + study guide</li></ul>
+<h3 id="week-1112-polish-analytics">Week 11–12: Polish + Analytics</h3>
+<ul><li>Model fallback chain</li><li>Usage/cost dashboard</li><li>Web search integration</li><li>Error handling, rate limits</li><li>Deploy to staging</li></ul>
+<hr>
+<h2 id="21-phase-wise-build-plan">21. Phase-Wise Build Plan</h2>
+<h3 id="phase-1-personal-ai-core-months-13-mvp">Phase 1: Personal AI Core (Months 1–3) — MVP</h3>
+<h3 id="phase-2-knowledge-os-months-45">Phase 2: Knowledge OS (Months 4–5)</h3>
+<ul><li>Backlinks + graph view</li><li>Note version history</li><li>All AI transforms (flashcards, interview Qs)</li><li>Conversation branching</li><li>Reranking (Cohere)</li><li>Cost-aware routing policies</li></ul>
+<h3 id="phase-3-connected-os-months-68">Phase 3: Connected OS (Months 6–8)</h3>
+<ul><li>Gmail + Google Drive + Calendar integrations</li><li>Slack integration</li><li>Notion import</li><li>Integration data in RAG</li><li>Web search heuristics + caching</li></ul>
+<h3 id="phase-4-agent-platform-months-911">Phase 4: Agent Platform (Months 9–11)</h3>
+<ul><li>Tool registry (search, notes, email, calendar)</li><li>Agent definitions + runs</li><li>MCP server exposing platform tools</li><li>Plugin manifest system</li><li>Multi-step agent workflows</li></ul>
+<h3 id="phase-5-scale-enterprise-months-12">Phase 5: Scale &amp; Enterprise (Months 12+)</h3>
+<ul><li>ClickHouse analytics</li><li>S3 data lake + batch re-embedding</li><li>Qdrant migration if needed</li><li>Team workspaces (multi-tenant)</li><li>SSO/SAML</li><li>Audit logs + compliance exports</li></ul>
+<hr>
+<h2 id="22-development-milestones">22. Development Milestones</h2>
+<table>
+<tr><th>Milestone</th><th>Success Criteria</th></tr>
+<tr><td>**M1: Hello Chat**</td><td>User can log in, send message, get streamed GPT/Claude response</td></tr>
+<tr><td>**M2: Model Swap**</td><td>User switches model mid-conversation, no data loss</td></tr>
+<tr><td>**M3: Memory Works**</td><td>AI remembers name/preference across new conversations</td></tr>
+<tr><td>**M4: RAG Works**</td><td>Upload PDF/Excel, ask question, get cited answer</td></tr>
+<tr><td>**M5: Notes Live**</td><td>Save chat to note, search finds it semantically</td></tr>
+<tr><td>**M6: Resilient**</td><td>Provider outage triggers fallback automatically</td></tr>
+<tr><td>**M7: Connected**</td><td>Gmail emails appear in chat context</td></tr>
+<tr><td>**M8: Agent Ready**</td><td>Agent completes multi-step task with tools</td></tr>
+</table>
+<hr>
+<h2 id="23-step-by-step-build-order">23. Step-by-Step Build Order</h2>
+<pre><code class=""> 1. Infrastructure (Docker, PG, Redis, S3)
+ 2. Auth + user profiles
+ 3. Conversations + messages API
+ 4. Model gateway (OpenRouter) + streaming
+ 5. React chat UI
+ 6. Model selector + registry
+ 7. Usage event logging
+ 8. Memory tables + extraction worker
+ 9. Memory injection in orchestrator
+10. Memory management UI
+11. Document upload + S3
+12. Document processing worker
+13. Embeddings service
+14. RAG retrieval + prompt assembly
+15. Citations in UI
+16. Notes schema + CRUD API
+17. Notes editor UI (Markdown)
+18. Note indexing worker
+19. Save-to-note from chat
+20. Notes search (FTS + semantic)
+21. AI note transforms
+22. Web search service
+23. Model fallback router
+24. Analytics API + dashboard
+25. Gmail OAuth + sync
+26. Slack, Notion, Drive, Calendar
+27. Agent framework
+28. MCP plugin runtime</code></pre>
+<hr>
+<h2 id="24-architecture-decisions">24. Architecture Decisions</h2>
+<ol><li><strong>FastAPI over NestJS</strong> — AI ecosystem fit</li><li><strong>PostgreSQL + pgvector for MVP</strong> — simplicity, ownership</li><li><strong>OpenRouter as primary gateway</strong> — multi-provider without lock-in</li><li><strong>Memory ≠ Notes</strong> — separate tables, separate retrieval paths</li><li><strong>Async workers for all heavy lifting</strong> — embeddings, ingestion, extraction</li><li><strong>Citations via retrieval_logs</strong> — full traceability</li><li><strong>LiteLLM for provider abstraction</strong> — battle-tested fallback</li></ol>
+<hr>
+<p>*End of Document*</p>
+
+</body>
+</html>

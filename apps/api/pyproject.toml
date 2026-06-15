@@ -1,0 +1,36 @@
+[project]
+name = "oneai-api"
+version = "0.1.0"
+description = "Phase 1 Personal AI Chat Core API"
+requires-python = ">=3.11"
+dependencies = [
+  "alembic>=1.13.3",
+  "asyncpg>=0.30.0",
+  "fastapi>=0.115.0",
+  "email-validator>=2.2.0",
+  "httpx>=0.27.2",
+  "langchain-core>=0.3.0",
+  "passlib[argon2]>=1.7.4",
+  "psycopg[binary]>=3.2.3",
+  "pydantic>=2.9.2",
+  "pydantic-settings>=2.6.1",
+  "python-jose[cryptography]>=3.3.0",
+  "python-multipart>=0.0.12",
+  "sqlalchemy>=2.0.35",
+  "uvicorn[standard]>=0.32.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.3",
+  "pytest-asyncio>=0.24.0",
+  "ruff>=0.7.0"
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
