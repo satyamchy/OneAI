@@ -1,17 +1,38 @@
+# Environment and secrets
 .env
 .env.*
 !.env.example
+
+# Python
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+.envrc
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
 htmlcov/
+
+# Node
 node_modules/
 dist/
 build/
+.npm/
 .vite/
-.DS_Store
-*.log
 
+# Docker and local data
+*.log
+docker-compose.override.yml
+postgres-data/
+redis-data/
+
+# IDE and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

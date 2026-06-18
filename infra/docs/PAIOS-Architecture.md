@@ -1,40 +1,4 @@
 # Personal AI Operating System (PAIOS)
-## Complete Architecture & Build Guide
-
-**Version:** 1.0  
-**Date:** June 9, 2026  
-**Purpose:** Production-grade, provider-agnostic Personal AI OS for study, trading, Excel data analytics, Q&A, research, and storage systems exploration.
-
----
-
-## Table of Contents
-
-1. [Executive Summary](#1-executive-summary)
-2. [System Architecture](#2-system-architecture)
-3. [Functional Requirements](#3-functional-requirements)
-4. [Non-Functional Requirements](#4-non-functional-requirements)
-5. [Technology Stack](#5-technology-stack)
-6. [Data Architecture Tradeoffs](#6-data-architecture-tradeoffs)
-7. [Database Design](#7-database-design)
-8. [Memory Architecture](#8-memory-architecture)
-9. [RAG Architecture](#9-rag-architecture)
-10. [Model Routing & Fallback](#10-model-routing--fallback)
-11. [Web Search Integration](#11-web-search-integration)
-12. [Third-Party Integrations](#12-third-party-integrations)
-13. [Analytics Architecture](#13-analytics-architecture)
-14. [API Design](#14-api-design)
-15. [Security & Access Control](#15-security--access-control)
-16. [Deployment & Scaling](#16-deployment--scaling)
-17. [Knowledge & Notes System](#17-knowledge--notes-system)
-18. [Folder Structure](#18-folder-structure)
-19. [Build vs Outsource vs Custom](#19-build-vs-outsource-vs-custom)
-20. [MVP Roadmap](#20-mvp-roadmap)
-21. [Phase-Wise Build Plan](#21-phase-wise-build-plan)
-22. [Development Milestones](#22-development-milestones)
-23. [Step-by-Step Build Order](#23-step-by-step-build-order)
-24. [Architecture Decisions](#24-architecture-decisions)
-
----
 
 ## 1. Executive Summary
 
