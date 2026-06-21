@@ -11,17 +11,19 @@
   "dependencies": {
     "@tailwindcss/forms": "latest",
     "@vitejs/plugin-react": "latest",
+    "autoprefixer": "latest",
     "axios": "latest",
-    "vite": "latest",
+    "postcss": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-router-dom": "latest",
-    "tailwindcss": "latest",
-    "postcss": "latest",
-    "autoprefixer": "latest",
-    "zustand": "latest",
     "react-markdown": "latest",
-    "react-syntax-highlighter": "latest"
+    "react-router-dom": "latest",
+    "react-syntax-highlighter": "latest",
+    "tailwindcss": "latest",
+    "vite": "latest",
+    "zustand": "latest"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.1"
+  }
 }
