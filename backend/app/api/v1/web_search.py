@@ -7,6 +7,7 @@ import json
 
 router = APIRouter(prefix="/search", tags=["web search"])
 
+# llm + web search endpoint
 @router.get("/web-search")
 def web_search(query: str, max_results: int = 5):
 
@@ -27,8 +28,7 @@ def web_search(query: str, max_results: int = 5):
 
     if "```json" in response_text:
             response_text = response_text.split("```json")[1].split("```")[0].strip()
-   
-        
+           
     # Parse JSON
     try:
         articles = json.loads(response_text)
@@ -39,6 +39,29 @@ def web_search(query: str, max_results: int = 5):
             "raw_response": response_text
         }
         
+# llm endpoint
+@router.get("/llm" )
+def llm_response(query: str):
+     llm = get_llm()
+     prompt = f"""
+     User Query: {query}
+        Given the user query above, return a concise and relevant response.
+     """
+
+     results = llm.invoke(prompt)
+     return results.content.strip()
    
+
+# llm + agent calling endpoint
+@router.get("/llm-agent" )
+def llm_response(query: str):
+     llm = get_llm()
+     prompt = f"""
+     User Query: {query}
+        Given the user query above, return a concise and relevant response.
+     """
+
+     results = llm.invoke(prompt)
+     return results.content.strip()
 
 
