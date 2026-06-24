@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.v1 import auth, conversations, messages, model_runs, models
+from app.api.v1 import auth, conversations, messages, model_runs, models, web_search
 from app.config import settings
 from app.utils.request_id import generate_request_id
 
@@ -32,3 +32,4 @@ app.include_router(conversations.router, prefix=settings.api_v1_prefix)
 app.include_router(messages.router, prefix=settings.api_v1_prefix)
 app.include_router(models.router, prefix=settings.api_v1_prefix)
 app.include_router(model_runs.router, prefix=settings.api_v1_prefix)
+app.include_router(web_search.router, prefix=settings.api_v1_prefix)

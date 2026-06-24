@@ -36,3 +36,5 @@ redis-data/
 .idea/
 .vscode/
 *.swp
+.myenv
+/backend/.mtenv

@@ -12,5 +12,7 @@ httpx
 redis
 langchain-core
 langchain-community
+langchain_groq
 duckduckgo-search
+ddgs
 beautifulsoup4

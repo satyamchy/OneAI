@@ -1,8 +1,14 @@
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from dotenv import load_dotenv
+import os
+load_dotenv() 
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+
 class Settings(BaseSettings):
-    app_name: str = "PAIOS"
+    app_name: str = "ONEAI"
     app_env: str = "development"
     app_debug: bool = True
     api_v1_prefix: str = "/v1"
@@ -15,7 +21,7 @@ class Settings(BaseSettings):
     openrouter_api_key: str = ""
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
     openrouter_default_model: str = "openai/gpt-4o-mini"
-    openrouter_app_name: str = "PAIOS"
+    openrouter_app_name: str = "ONEAI"
     openrouter_site_url: str = "http://localhost:5173"
     tavily_api_key: str = ""
     serpapi_key: str = ""

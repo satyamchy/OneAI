@@ -15,3 +15,7 @@ async def web_search(query: str, max_results: int = 5) -> list[dict]:
             "snippet": item.get("snippet") or item.get("body") or "",
         })
     return normalized
+
+
+def web_search_tool():
+    return DuckDuckGoSearchResults(output_format="list")
