@@ -39,3 +39,43 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - `app/tools`: tool registry, executor, and implementations.
 - `app/core`: auth, dependencies, context builder, constants, exceptions.
 - `app/db`: seed scripts and migration helpers.
+
+
+app/
+│
+├── agents/
+│   ├── conversation_agent.py      # Public entry point
+│   ├── graph.py                   # Builds LangGraph
+│   ├── planner.py                 # Planner node
+│   ├── tool_executor.py           # Executes tools
+│   ├── answer.py                  # Generates answer
+│   ├── formatter.py               # Formats final response
+│   └── state.py                   # LangGraph state
+│
+├── prompts/
+│   ├── planner.py
+│   └── answer.py
+│
+├── schemas/
+│   ├── planner.py
+│   └── conversation.py
+│
+├── tools/
+│   ├── registry.py
+│   ├── web_search.py
+│   ├── calculator.py
+│   └── ...
+│
+├── utils/
+│   └── context_builder.py
+│
+├── services/
+│   └── conversation_service.py
+│
+└── api/
+    └── conversation.py
+
+
+python -m venv .venv
+.venv\Scripts\activate
+uvicorn app.main:app --reload

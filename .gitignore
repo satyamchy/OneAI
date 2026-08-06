@@ -10,6 +10,7 @@ __pycache__/
 *.pyd
 .Python
 .venv/
+backend/.venv/
 venv/
 .envrc
 .pytest_cache/
@@ -18,23 +19,7 @@ venv/
 .coverage
 htmlcov/
 
-# Node
-node_modules/
-dist/
-build/
-.npm/
-.vite/
+backend/venv/
 
-# Docker and local data
-*.log
-docker-compose.override.yml
-postgres-data/
-redis-data/
-
-# IDE and OS
-.DS_Store
-.idea/
-.vscode/
-*.swp
-.myenv
-/backend/.mtenv
+app_sample
+backend/app_sample
