@@ -1,108 +1,42 @@
-2026-08-10 01:33:57,602 | INFO | app.agents.conversation_agent | AGENT_START | request_id=7d039a16-5051-4edb-b2e4-1459b8d399a4 | query=pmo of india
-2026-08-10 01:33:58,232 | ERROR | app.agents.conversation_agent | AGENT_FAILED | request_id=7d039a16-5051-4edb-b2e4-1459b8d399a4
-Traceback (most recent call last):
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\agents\conversation_agent.py", line 52, in run
-    result = await self.graph.ainvoke(
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\main.py", line 4090, in ainvoke
-    async for chunk in self.astream(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3440, in astream
-    async for _ in runner.atick(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 396, in atick
-    await arun_with_retry(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 744, in arun_with_retry
-    return await task.proc.ainvoke(task.input, config)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 733, in ainvoke
-    input = await asyncio.create_task(
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 501, in ainvoke
-    ret = await self.afunc(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\agents\planner.py", line 40, in planner_node
-    response = await chain.ainvoke(
-               ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 3484, in ainvoke
-    input_ = await coro_with_context(part(), context, create_task=True)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 6015, in ainvoke
-    return await self.bound.ainvoke(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 499, in ainvoke
-    llm_result = await self.agenerate_prompt(
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1860, in agenerate_prompt
-    return await self.agenerate(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1818, in agenerate
-    raise exceptions[0]
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 2151, in _agenerate_with_cache
-    result = await self._agenerate(
-             ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 648, in _agenerate
-    response = await self.async_client.create(messages=message_dicts, **params)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
-    return await self._post(
-           ^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
-    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\_base_client.py", line 1576, in request
-    raise self._make_status_error_from_response(err.response) from None
-groq.BadRequestError: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=PlannerResponse> {"is_finished": False, "reason": "Unknown information", "steps": [{"tool": "web_search", "input": {"query": "pmo of india"}}]} </function>'}}
-During task with name 'planner' and id '9fb73bb8-6387-70fd-c135-4ca5e51868bc'
-2026-08-10 01:47:08,291 | INFO | app.agents.conversation_agent | AGENT_START | request_id=ee2fb807-38f3-4b20-832a-ebf35e3391e9 | query=pmo of india
-2026-08-10 01:47:08,829 | ERROR | app.agents.conversation_agent | AGENT_FAILED | request_id=ee2fb807-38f3-4b20-832a-ebf35e3391e9
-Traceback (most recent call last):
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\agents\conversation_agent.py", line 52, in run
-    result = await self.graph.ainvoke(
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\main.py", line 4090, in ainvoke
-    async for chunk in self.astream(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3440, in astream
-    async for _ in runner.atick(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 396, in atick
-    await arun_with_retry(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 744, in arun_with_retry
-    return await task.proc.ainvoke(task.input, config)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 733, in ainvoke
-    input = await asyncio.create_task(
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 501, in ainvoke
-    ret = await self.afunc(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\agents\planner.py", line 41, in planner_node
-    response = await chain.ainvoke(
-               ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 3484, in ainvoke
-    input_ = await coro_with_context(part(), context, create_task=True)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 6015, in ainvoke
-    return await self.bound.ainvoke(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 499, in ainvoke
-    llm_result = await self.agenerate_prompt(
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1860, in agenerate_prompt
-    return await self.agenerate(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1818, in agenerate
-    raise exceptions[0]
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 2151, in _agenerate_with_cache
-    result = await self._agenerate(
-             ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 648, in _agenerate
-    response = await self.async_client.create(messages=message_dicts, **params)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
-    return await self._post(
-           ^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
-    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\_base_client.py", line 1576, in request
-    raise self._make_status_error_from_response(err.response) from None
-groq.BadRequestError: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error'}}
-During task with name 'planner' and id '2cdfa683-f878-5a77-d868-78041b4c149a'
+2026-08-10 02:04:33,381 | INFO | app.agents.conversation_agent | AGENT_START | request_id=c8123785-34ab-402e-97c0-e40b8f94886a | query=who is the prime minister of india
+2026-08-10 02:04:33,781 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {
+  "is_finished": false,
+   "reason": "Current information is required to answer the question",
+   "steps": [
+       {
+           "tool": "web_search",
+           "input": {
+               "query": "prime minister of india"
+           }
+       }
+   ]
+}
+2026-08-10 02:04:33,782 | INFO | app.agents.planner | PLANNER_DECISION | query=who is the prime minister of india | tools=['web_search'] | finished=False | reason=Current information is required to answer the question
+2026-08-10 02:04:33,787 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_START | tools=['web_search']
+2026-08-10 02:04:33,787 | INFO | app.agents.tool_executor | TOOL_CALL_START | id=c0386fa8-4621-4381-b718-cdd886988934 | tool=web_search | input={'query': 'prime minister of india'}
+2026-08-10 02:04:36,839 | INFO | app.agents.tool_executor | TOOL_CALL_SUCCESS | id=c0386fa8-4621-4381-b718-cdd886988934 | tool=web_search | duration=3.048s
+2026-08-10 02:04:36,839 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_COMPLETE | executed=1 | successful=1
+2026-08-10 02:04:37,089 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {
+  "is_finished": false,
+   "reason": "Current information is available, but the question is not answered directly.",
+   "steps": [
+       {
+           "tool": "web_search",
+           "input": {
+               "query": "current prime minister of india"
+           }
+       }
+   ]
+}
+2026-08-10 02:04:37,090 | INFO | app.agents.planner | PLANNER_DECISION | query=who is the prime minister of india | tools=['web_search'] | finished=False | reason=Current information is available, but the question is not answered directly.
+2026-08-10 02:04:37,096 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_START | tools=['web_search']
+2026-08-10 02:04:37,100 | INFO | app.agents.tool_executor | TOOL_CALL_START | id=74be442d-fc8e-42a5-a562-f2890ba74a47 | tool=web_search | input={'query': 'current prime minister of india'}
+2026-08-10 02:04:40,100 | INFO | app.agents.tool_executor | TOOL_CALL_SUCCESS | id=74be442d-fc8e-42a5-a562-f2890ba74a47 | tool=web_search | duration=2.998s
+2026-08-10 02:04:40,100 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_COMPLETE | executed=1 | successful=1
+2026-08-10 02:04:40,320 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {
+  "is_finished": true,
+   "reason": "The required information is already available in the previous tool outputs.",
+   "steps": []
+}
+2026-08-10 02:04:40,320 | INFO | app.agents.planner | PLANNER_DECISION | query=who is the prime minister of india | tools=[] | finished=True | reason=The required information is already available in the previous tool outputs.
+2026-08-10 02:04:40,685 | INFO | app.agents.conversation_agent | AGENT_COMPLETE | request_id=c8123785-34ab-402e-97c0-e40b8f94886a | success=True

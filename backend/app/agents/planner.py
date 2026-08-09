@@ -10,9 +10,12 @@ logger = get_logger(__name__)
 
 llm = get_llm()
 
-planner_llm = llm.with_structured_output(
-    PlannerResponse,
-        method="json_mode"
+# planner_llm = llm.with_structured_output(
+#     PlannerResponse,
+#         method="json_mode"
+# )
+planner_llm = llm.bind(
+    response_format={"type": "json_object"}
 )
 
 planner_prompt = ChatPromptTemplate.from_messages(
@@ -50,16 +53,33 @@ async def planner_node(
 
     )
 
+      # response is AIMessage
+    logger.info(
+        "RAW_PLANNER_RESPONSE | %s",
+        response.content
+    )
+
+    # Convert JSON string -> PlannerResponse
+    planner_response = PlannerResponse.model_validate_json(
+        response.content
+    )
      # Log planner's decision
+    # logger.info(
+    #     "PLANNER_DECISION | query=%s | tools=%s | finished=%s | reason=%s",
+    #     state["query"],
+    #     [step.tool for step in response.steps],
+    #     response.is_finished,
+    #     response.reason,
+    # )
     logger.info(
         "PLANNER_DECISION | query=%s | tools=%s | finished=%s | reason=%s",
         state["query"],
-        [step.tool for step in response.steps],
-        response.is_finished,
-        response.reason,
+        [step.tool for step in planner_response.steps],
+        planner_response.is_finished,
+        planner_response.reason,
     )
 
     return {
-        "steps": response.steps,
-        "is_finished": response.is_finished
+        "steps": planner_response.steps,
+        "is_finished": planner_response.is_finished
     }
