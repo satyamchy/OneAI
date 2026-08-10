@@ -1,8 +1,6 @@
 from fastapi import APIRouter
-
-from app.services.conversation_service import run_conversation
-
 from app.schemas.conversation import RunResponse
+from app.services.conversation_service import run_conversation
 
 
 router = APIRouter()

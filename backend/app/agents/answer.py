@@ -26,11 +26,8 @@ Context
 
 {context}
 """
-
         )
-
     ]
-
 )
 
 chain = prompt | llm
