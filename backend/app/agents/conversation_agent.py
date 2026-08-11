@@ -27,22 +27,15 @@ class ConversationAgent:
         initial_state: ConversationState = {
 
             "messages": [],
-
             "query": query,
-
             "steps": [],
-
             "tool_outputs": [],
-
             "sources": [],
-
             "context": "",
-
             "answer": "",
-
             "is_finished": False,
-
-            "error": ""
+            "error": "",
+            "loop_count": 0,
 
         }
 

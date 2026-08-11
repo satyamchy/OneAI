@@ -26,7 +26,6 @@
 
 # """
 
-
 PLANNER_PROMPT = """
 You are a planning agent for an AI assistant.
 
@@ -51,9 +50,12 @@ Rules:
 - Use web_search when external or current information is required.
 - Use calculator for mathematical calculations.
 - Never provide an empty input object.
-- If no tool is required, return an empty steps array.
-- Set is_finished to true only when the question can be answered
-  using the available information.
+- Never repeat a search query that already appears in Previous Tool Outputs.
+- If the Previous Tool Outputs already contain enough information to
+  answer the question, you MUST set is_finished to true and return an
+  empty steps array. Never say the answer is already known while also
+  setting is_finished to false — this is a contradiction and is not allowed.
+- If no tool is required, return an empty steps array and set is_finished to true.
 - Return ONLY valid JSON.
 - Do not use markdown.
 - Do not wrap the JSON in ```json```.

@@ -1,3 +1,4 @@
+import operator
 from typing import Annotated, Any
 from typing_extensions import TypedDict
 
@@ -14,10 +15,10 @@ class ConversationState(TypedDict):
     query: str
     # Planner output
     steps: list[ToolStep]
-    # Outputs returned from tools
-    tool_outputs: list[Any]
-    # Unified sources from all tools
-    sources: list[dict]
+    # Outputs returned from tools (accumulates across loop iterations)
+    tool_outputs: Annotated[list[Any], operator.add]
+    # Unified sources from all tools (accumulates across loop iterations)
+    sources: Annotated[list[dict], operator.add]
     # Context built from sources
     context: str
     # Final answer
@@ -26,3 +27,5 @@ class ConversationState(TypedDict):
     is_finished: bool
     # Error
     error: str
+     # Number of planner<->tool_executor round trips so far
+    loop_count: int

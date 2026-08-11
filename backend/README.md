@@ -78,4 +78,4 @@ app/
 
 python -m venv .venv
 .venv\Scripts\activate
-uvicorn app.main:app --reload
+uvicorn main:app --reload

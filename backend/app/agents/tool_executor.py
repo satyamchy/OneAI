@@ -114,20 +114,21 @@ async def tool_executor_node(
     tasks = []
 
     for step in steps:
-
         tool_call_id = str(uuid.uuid4())
-
-        tasks.append(
-            execute_tool(
-                step,
-                tool_call_id,
-            )
-        )
+        tasks.append(execute_tool(step, tool_call_id))
 
     results = await asyncio.gather(*tasks)
 
     tool_outputs = []
     sources = []
+
+    # Dedupe against URLs already seen in this batch AND in prior
+    # rounds (state["sources"] holds everything accumulated so far).
+    seen_urls = {
+        source.get("url")
+        for source in state.get("sources", [])
+        if source.get("url")
+    }
 
     for result in results:
 
@@ -139,16 +140,22 @@ async def tool_executor_node(
 
             if isinstance(output, list):
 
-                sources.extend(output)
+                for item in output:
+                    url = item.get("url") if isinstance(item, dict) else None
+
+                    if url and url in seen_urls:
+                        continue  # already have this source
+
+                    if url:
+                        seen_urls.add(url)
+
+                    sources.append(item)
 
     logger.info(
-        "TOOL_EXECUTOR_COMPLETE | executed=%s | successful=%s",
+        "TOOL_EXECUTOR_COMPLETE | executed=%s | successful=%s | new_sources=%s",
         len(results),
-        sum(
-            1
-            for result in results
-            if result["success"]
-        ),
+        sum(1 for result in results if result["success"]),
+        len(sources),
     )
 
     return {

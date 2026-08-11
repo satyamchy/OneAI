@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 async def web_search(
     query: str,
-    max_results: int = 5,
+    max_results: int = 3,
 ) -> list[dict]:
 
     tool = DuckDuckGoSearchResults(
@@ -20,7 +20,24 @@ async def web_search(
 
     except Exception as e:
 
-        logger.exception(e)
+        logger.exception(
+            "WEB_SEARCH_FAILED | query=%s",
+            query,
+        )
+ 
+        # Re-raise so tool_executor_node records this as
+        # success=False with a real error, instead of silently
+        # returning an empty list that looks like "zero results".
+        raise RuntimeError(
+            f"web_search failed for query='{query}': {e}"
+        ) from e
+
+    if not results:
+
+        logger.warning(
+            "WEB_SEARCH_EMPTY | query=%s",
+            query,
+        )
 
         return []
 
