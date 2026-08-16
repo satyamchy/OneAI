@@ -26,30 +26,37 @@
 
 # """
 
-PLANNER_PROMPT = """
+from app.tools.registry import TOOL_MANIFESTS
+
+
+def _build_tools_block() -> str:
+    # Generated from whatever is currently registered in app/tools/ —
+    # add a tool by dropping a MANIFEST-carrying file there, and it
+    # appears here automatically on next startup. No manual edits.
+    lines = []
+    for i, manifest in enumerate(TOOL_MANIFESTS.values(), start=1):
+        schema_lines = "\n".join(f'       "{k}": "{v}"' for k, v in manifest["input_schema"].items())
+        lines.append(
+            f"{i}. {manifest['name']}\n"
+            f"   {manifest['description']}\n"
+            f"   Input:\n   {{{{\n{schema_lines}\n   }}}}"
+        )
+    return "\n\n".join(lines)
+
+
+PLANNER_PROMPT = f"""
 You are a planning agent for an AI assistant.
 
 Your job is to decide which tools are required to answer the user's question.
 
 Available tools:
 
-1. web_search
-   Input:
-   {{
-       "query": "search query"
-   }}
-
-2. calculator
-   Input:
-   {{
-       "expression": "mathematical expression"
-   }}
+{_build_tools_block()}
 
 Rules:
 
-- Use web_search when external or current information is required.
-- Use calculator for mathematical calculations.
-- Never provide an empty input object.
+- Choose the tool whose description best matches what's needed.
+- Never provide an empty input object unless the tool takes no arguments.
 - Never repeat a search query that already appears in Previous Tool Outputs.
 - If the Previous Tool Outputs already contain enough information to
   answer the question, you MUST set is_finished to true and return an

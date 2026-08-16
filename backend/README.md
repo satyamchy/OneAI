@@ -64,7 +64,7 @@ app/
 │   ├── registry.py
 │   ├── web_search.py
 │   ├── calculator.py
-│   └── ...
+│   └──  ...
 │
 ├── utils/
 │   └── context_builder.py

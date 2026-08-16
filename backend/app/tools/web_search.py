@@ -3,11 +3,13 @@ from langchain_community.tools import DuckDuckGoSearchResults
 
 logger = logging.getLogger(__name__)
 
+MANIFEST = {
+    "name": "web_search",
+    "description": "Search the internet for current or external information.",
+    "input_schema": {"query": "search query string"},
+}
 
-async def web_search(
-    query: str,
-    max_results: int = 3,
-) -> list[dict]:
+async def web_search( query: str,max_results: int = 3,) -> list[dict]:
 
     tool = DuckDuckGoSearchResults(
         output_format="list",
