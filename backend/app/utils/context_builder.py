@@ -15,6 +15,17 @@ def build_context(
         start=1,
     ):
 
+        if source.get("source_type") == "structured_data":
+            data = source.get("data", {})
+            docs.append(
+                f"""
+Source {idx} (structured financial data via {source.get("tool")})
+
+{data}
+"""
+            )
+            continue
+
         docs.append(
             f"""
 Source {idx}

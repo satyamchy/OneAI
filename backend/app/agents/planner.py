@@ -27,6 +27,9 @@ planner_prompt = ChatPromptTemplate.from_messages(
 Question:
 {query}
 
+Resolved Companies (use these exact tickers if the question is about one of them — do not guess a different ticker):
+{companies}
+
 Previous Tool Outputs:
 {tool_outputs}
 """
@@ -50,9 +53,17 @@ async def planner_node(
 
     chain = planner_prompt | planner_llm
 
+    companies = state.get("companies", [])
+    companies_text = (
+        "\n".join(f"- {c['name']} -> ticker: {c['ticker']}" for c in companies)
+        if companies
+        else "None resolved."
+    )
+
     response = await chain.ainvoke(
         {
             "query": state["query"],
+            "companies": companies_text,
             "tool_outputs": state["tool_outputs"]
         }
     )

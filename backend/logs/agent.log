@@ -48,3 +48,15 @@ RuntimeError: stock_analyzer failed for ticker='TCS': No price data returned for
 2026-08-17 23:57:51,248 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {"is_finished":false,"reason":"Need to fetch current live price of TCS from a reliable source","steps":[{"tool":"web_search","input":{"query":"TCS stock price live NSE"}}]}
 2026-08-17 23:57:51,248 | INFO | app.agents.planner | PLANNER_DECISION | query=what is the stock price of tcs company | tools=['web_search'] | finished=False | reason=Need to fetch current live price of TCS from a reliable source
 2026-08-17 23:57:52,252 | INFO | app.agents.conversation_agent | AGENT_COMPLETE | request_id=0be839d7-0851-417c-94e6-5f4157ec488c | success=True
+2026-08-18 00:46:42,373 | INFO | app.agents.conversation_agent | AGENT_START | request_id=892cf0b8-5af4-4e23-8aa6-56a225cfdc1c | query=what is the stock price of tcs company
+2026-08-18 00:46:45,515 | INFO | app.agents.router | RAW_ROUTER_RESPONSE | {"intent":"WEB_RESEARCH","confidence":0.9,"entities":["TCS"],"reasoning":"User requests current stock price of a specific company"}
+2026-08-18 00:46:45,529 | INFO | app.agents.router | ROUTE_DECISION | query=what is the stock price of tcs company | intent=WEB_RESEARCH | confidence=0.90 | entities=['TCS']
+2026-08-18 00:46:49,006 | INFO | app.agents.company_resolver_node | COMPANY_RESOLUTION_OK | entities=['TCS'] | resolved=[('Tata Consultancy Services Limited', 'TCS.NS')]
+2026-08-18 00:46:49,938 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {"is_finished":false,"reason":"Need to fetch current stock price for TCS.NS","steps":[{"tool":"stock_analyzer","input":{"ticker":"TCS.NS","period":"1d"}}]}
+2026-08-18 00:46:49,955 | INFO | app.agents.planner | PLANNER_DECISION | query=what is the stock price of tcs company | tools=['stock_analyzer'] | finished=False | reason=Need to fetch current stock price for TCS.NS
+2026-08-18 00:46:49,973 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_START | tools=['stock_analyzer']
+2026-08-18 00:46:49,975 | INFO | app.agents.tool_executor | TOOL_CALL_START | id=e860b4b1-5343-4187-8305-f6c2ee14dc1f | tool=stock_analyzer | input={'ticker': 'TCS.NS', 'period': '1d'}
+2026-08-18 00:47:04,600 | INFO | app.agents.tool_executor | TOOL_CALL_SUCCESS | id=e860b4b1-5343-4187-8305-f6c2ee14dc1f | tool=stock_analyzer | duration=14.624s
+2026-08-18 00:47:04,604 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_COMPLETE | executed=1 | successful=1 | new_sources=1
+2026-08-18 00:47:05,396 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {"is_finished":true,"reason":"Previous tool output contains current price","steps":[]}
+2026-08-18 00:47:05,404 | INFO | app.agents.planner | PLANNER_DECISION | query=what is the stock price of tcs company | tools=[] | finished=True | reason=Previous tool output contains current price

@@ -32,3 +32,5 @@ class ConversationState(TypedDict):
     # --- Added in Phase 2 (router) ---
     intent: str
     entities: list[str]
+    # --- Added in Phase 3 (company resolver) ---
+    companies: list[dict]

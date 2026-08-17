@@ -151,6 +151,23 @@ async def tool_executor_node(
 
                     sources.append(item)
 
+            elif isinstance(output, dict):
+                # Structured data (e.g. stock_analyzer) — no URL to dedupe
+                # against, so wrap it with a synthetic key based on tool +
+                # ticker/query so a repeated identical call doesn't duplicate.
+                synthetic_key = f"internal://{result['tool']}/{tool_input.get('ticker') or tool_input.get('query', '')}" if (tool_input := result.get("input")) else f"internal://{result['tool']}"
+
+                if synthetic_key in seen_urls:
+                    continue
+
+                seen_urls.add(synthetic_key)
+                sources.append({
+                    "source_type": "structured_data",
+                    "tool": result["tool"],
+                    "url": synthetic_key,
+                    "data": output,
+                })
+
     logger.info(
         "TOOL_EXECUTOR_COMPLETE | executed=%s | successful=%s | new_sources=%s",
         len(results),
