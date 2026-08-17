@@ -29,3 +29,6 @@ class ConversationState(TypedDict):
     error: str
      # Number of planner<->tool_executor round trips so far
     loop_count: int
+    # --- Added in Phase 2 (router) ---
+    intent: str
+    entities: list[str]

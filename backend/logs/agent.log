@@ -1,113 +1,50 @@
-2026-08-12 01:32:37,348 | INFO | app.agents.conversation_agent | AGENT_START | request_id=f37fa459-6da1-4b3d-94f3-cc37b6aade73 | query=who is the prime minister of nepal
-2026-08-12 01:32:50,019 | ERROR | app.agents.conversation_agent | AGENT_FAILED | request_id=f37fa459-6da1-4b3d-94f3-cc37b6aade73
+2026-08-17 23:57:33,998 | INFO | app.agents.conversation_agent | AGENT_START | request_id=0be839d7-0851-417c-94e6-5f4157ec488c | query=what is the stock price of tcs company
+2026-08-17 23:57:35,718 | INFO | app.agents.router | RAW_ROUTER_RESPONSE | {"intent":"WEB_RESEARCH","confidence":0.9,"entities":["TCS"],"reasoning":"User requests current stock price of a specific company"}
+2026-08-17 23:57:35,720 | INFO | app.agents.router | ROUTE_DECISION | query=what is the stock price of tcs company | intent=WEB_RESEARCH | confidence=0.90 | entities=['TCS']
+2026-08-17 23:57:37,283 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {"is_finished":false,"reason":"Need to fetch current stock price for TCS","steps":[{"tool":"stock_analyzer","input":{"ticker":"TCS","period":"1d"}}]}
+2026-08-17 23:57:37,283 | INFO | app.agents.planner | PLANNER_DECISION | query=what is the stock price of tcs company | tools=['stock_analyzer'] | finished=False | reason=Need to fetch current stock price for TCS
+2026-08-17 23:57:37,294 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_START | tools=['stock_analyzer']
+2026-08-17 23:57:37,296 | INFO | app.agents.tool_executor | TOOL_CALL_START | id=3f04e1f5-a78b-4487-b433-bc311478254b | tool=stock_analyzer | input={'ticker': 'TCS', 'period': '1d'}
+2026-08-17 23:57:42,012 | ERROR | app.agents.tool_executor | TOOL_CALL_FAILED | id=3f04e1f5-a78b-4487-b433-bc311478254b | tool=stock_analyzer | duration=4.716s
 Traceback (most recent call last):
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
-    resp = await self._pool.handle_async_request(req)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
-    raise exc from None
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
-    response = await connection.handle_async_request(
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpcore\_async\connection.py", line 101, in handle_async_request
-    raise exc
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpcore\_async\connection.py", line 78, in handle_async_request
-    stream = await self._connect(request)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpcore\_async\connection.py", line 124, in _connect
-    stream = await self._network_backend.connect_tcp(**kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpcore\_backends\auto.py", line 31, in connect_tcp
-    return await self._backend.connect_tcp(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 113, in connect_tcp
-    with map_exceptions(exc_map):
-  File "C:\Program Files\Python311\Lib\contextlib.py", line 155, in __exit__
-    self.gen.throw(typ, value, traceback)
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 11001] getaddrinfo failed
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\_base_client.py", line 1512, in request
-    response = await self._client.send(
-               ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpx\_client.py", line 1629, in send
-    response = await self._send_handling_auth(
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
-    response = await self._send_handling_redirects(
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
-    response = await self._send_single_request(request)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
-    response = await transport.handle_async_request(request)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpx\_transports\default.py", line 393, in handle_async_request
-    with map_httpcore_exceptions():
-  File "C:\Program Files\Python311\Lib\contextlib.py", line 155, in __exit__
-    self.gen.throw(typ, value, traceback)
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 11001] getaddrinfo failed
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\agents\conversation_agent.py", line 44, in run
-    result = await self.graph.ainvoke(
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\main.py", line 4090, in ainvoke
-    async for chunk in self.astream(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\main.py", line 3440, in astream
-    async for _ in runner.atick(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\_runner.py", line 396, in atick
-    await arun_with_retry(
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\pregel\_retry.py", line 744, in arun_with_retry
-    return await task.proc.ainvoke(task.input, config)
+  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\tools\finance\quote_analysis.py", line 24, in stock_analyzer
+    history = await provider.get_historical_prices(ticker, period)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\tools\finance\yfinance_provider.py", line 18, in get_historical_prices
+    return await asyncio.to_thread(self._get_history_sync, ticker, period)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\asyncio\threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 733, in ainvoke
-    input = await asyncio.create_task(
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 501, in ainvoke
-    ret = await self.afunc(*args, **kwargs)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\agents\planner.py", line 53, in planner_node
-    response = await chain.ainvoke(
-               ^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 3484, in ainvoke
-    input_ = await coro_with_context(part(), context, create_task=True)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\runnables\base.py", line 6015, in ainvoke
-    return await self.bound.ainvoke(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 499, in ainvoke
-    llm_result = await self.agenerate_prompt(
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1860, in agenerate_prompt
-    return await self.agenerate(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1818, in agenerate
-    raise exceptions[0]
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 2151, in _agenerate_with_cache
-    result = await self._agenerate(
-             ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\langchain_groq\chat_models.py", line 648, in _agenerate
-    response = await self.async_client.create(messages=message_dicts, **params)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\resources\chat\completions.py", line 941, in create
-    return await self._post(
-           ^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\_base_client.py", line 1762, in post
-    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\.venv\Lib\site-packages\groq\_base_client.py", line 1544, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-During task with name 'planner' and id 'e86f2ebf-cfcb-f1e2-4839-83613d0ad822'
-2026-08-12 01:38:53,454 | INFO | app.agents.conversation_agent | AGENT_START | request_id=f0c4b5fb-521b-4b7a-a3cf-284315cdd883 | query=who is the prime minister of nepal
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\tools\finance\yfinance_provider.py", line 40, in _get_history_sync
+    raise ValueError(f"No price data returned for ticker '{ticker}'.")
+ValueError: No price data returned for ticker 'TCS'.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\agents\tool_executor.py", line 48, in execute_tool
+    result = await tool(**tool_input)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Satyam Kumar\Desktop\OneAI\backend\app\tools\finance\quote_analysis.py", line 29, in stock_analyzer
+    raise RuntimeError(f"stock_analyzer failed for ticker='{ticker}': {e}") from e
+RuntimeError: stock_analyzer failed for ticker='TCS': No price data returned for ticker 'TCS'.
+2026-08-17 23:57:42,019 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_COMPLETE | executed=1 | successful=0 | new_sources=0
+2026-08-17 23:57:42,756 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {"is_finished":false,"reason":"Need to fetch current stock price via web search","steps":[{"tool":"web_search","input":{"query":"TCS stock price"}}]}
+2026-08-17 23:57:42,756 | INFO | app.agents.planner | PLANNER_DECISION | query=what is the stock price of tcs company | tools=['web_search'] | finished=False | reason=Need to fetch current stock price via web search
+2026-08-17 23:57:42,763 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_START | tools=['web_search']
+2026-08-17 23:57:42,763 | INFO | app.agents.tool_executor | TOOL_CALL_START | id=b668e535-9f5b-45ad-8b82-529d5a01ca10 | tool=web_search | input={'query': 'TCS stock price'}
+2026-08-17 23:57:46,153 | INFO | app.agents.tool_executor | TOOL_CALL_SUCCESS | id=b668e535-9f5b-45ad-8b82-529d5a01ca10 | tool=web_search | duration=3.387s
+2026-08-17 23:57:46,153 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_COMPLETE | executed=1 | successful=1 | new_sources=3
+2026-08-17 23:57:46,931 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {"is_finished":false,"reason":"Need to fetch current stock price for TCS","steps":[{"tool":"web_search","input":{"query":"TCS stock price today"}}]}
+2026-08-17 23:57:46,933 | INFO | app.agents.planner | PLANNER_DECISION | query=what is the stock price of tcs company | tools=['web_search'] | finished=False | reason=Need to fetch current stock price for TCS
+2026-08-17 23:57:46,937 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_START | tools=['web_search']
+2026-08-17 23:57:46,940 | INFO | app.agents.tool_executor | TOOL_CALL_START | id=63c49fb6-7c07-42a0-8bf4-ebe56ce381ac | tool=web_search | input={'query': 'TCS stock price today'}
+2026-08-17 23:57:49,701 | INFO | app.agents.tool_executor | TOOL_CALL_SUCCESS | id=63c49fb6-7c07-42a0-8bf4-ebe56ce381ac | tool=web_search | duration=2.762s
+2026-08-17 23:57:49,701 | INFO | app.agents.tool_executor | TOOL_EXECUTOR_COMPLETE | executed=1 | successful=1 | new_sources=2
+2026-08-17 23:57:51,248 | INFO | app.agents.planner | RAW_PLANNER_RESPONSE | {"is_finished":false,"reason":"Need to fetch current live price of TCS from a reliable source","steps":[{"tool":"web_search","input":{"query":"TCS stock price live NSE"}}]}
+2026-08-17 23:57:51,248 | INFO | app.agents.planner | PLANNER_DECISION | query=what is the stock price of tcs company | tools=['web_search'] | finished=False | reason=Need to fetch current live price of TCS from a reliable source
+2026-08-17 23:57:52,252 | INFO | app.agents.conversation_agent | AGENT_COMPLETE | request_id=0be839d7-0851-417c-94e6-5f4157ec488c | success=True

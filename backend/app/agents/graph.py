@@ -2,6 +2,7 @@ from langgraph.graph import (START, END, StateGraph )
 
 from app.agents.state import ConversationState
 from app.agents.planner import planner_node
+from app.agents.router import router_node
 from app.agents.tool_executor import tool_executor_node
 from app.agents.answer import answer_node
 from app.agents.formatter import formatter_node
@@ -35,12 +36,14 @@ def build_graph():
         ConversationState
     )
 
+    builder.add_node("router", router_node)
     builder.add_node("planner", planner_node)
     builder.add_node("tool_executor", tool_executor_node)
     builder.add_node("answer", answer_node)
     builder.add_node("formatter", formatter_node)
 
-    builder.add_edge(START, "planner")
+    builder.add_edge(START, "router")
+    builder.add_edge("router", "planner")
 
     builder.add_conditional_edges(
         "planner",

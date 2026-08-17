@@ -6,6 +6,11 @@ import os
 load_dotenv() 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
+key = os.getenv("GROQ_API_KEY")
+
+print("Groq key loaded:", bool(key))
+print("Groq key prefix:", key[:8] if key else None)
+print("Groq key length:", len(key) if key else 0)
 
 class Settings(BaseSettings):
     app_name: str = "ONEAI"
