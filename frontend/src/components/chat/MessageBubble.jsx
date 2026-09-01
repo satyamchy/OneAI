@@ -2,15 +2,28 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import SourcesBlock from './SourcesBlock.jsx';
 import ToolCallBlock from './ToolCallBlock.jsx';
+import MarketDashboardCard from '../stock/MarketDashboardCard.jsx';
+import StockAnalysisCard from '../stock/StockAnalysisCard.jsx';
+import StockScreenerTable from '../stock/StockScreenerTable.jsx';
 
 function MessageBubble({ message }) {
   const isAssistant = message.role === 'assistant';
+  const structuredData = message.structured_data;
 
-  // Assistant messages can render sources or tool output above markdown content.
+  const isMarketOverview = structuredData && structuredData.market_status && structuredData.indices;
+  const isScreener = structuredData && structuredData.ranked_stocks;
+  const isStockAnalysis = structuredData && structuredData.ticker && structuredData.indicators;
+
   return (
     <article className={`rounded-2xl p-4 ${isAssistant ? 'bg-slate-900' : 'ml-auto max-w-3xl bg-blue-600'}`}>
       {message.search_sources_json && <SourcesBlock sources={message.search_sources_json} />}
       {message.tool_calls_json && <ToolCallBlock toolCall={message.tool_calls_json} />}
+
+      {/* Structured Financial Widgets */}
+      {isMarketOverview && <MarketDashboardCard data={structuredData} />}
+      {isScreener && <StockScreenerTable data={structuredData} />}
+      {isStockAnalysis && <StockAnalysisCard data={structuredData} />}
+
       <ReactMarkdown components={{
         code({ inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '');

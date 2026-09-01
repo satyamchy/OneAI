@@ -19,3 +19,9 @@ export function updateConversation(id, payload) {
 export function deleteConversation(id) {
   return api.delete(`/conversations/${id}`);
 }
+
+// Directly queries the AI Stock Market Analyzer agent.
+export function runConversation(query) {
+  return api.get(`/v1/?query=${encodeURIComponent(query)}`).then((response) => response.data);
+}
+

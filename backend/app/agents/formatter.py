@@ -10,8 +10,17 @@ async def formatter_node(
     if not answer:
         answer = "Sorry, I couldn't generate an answer."
 
+    structured_data = None
+    sources = state.get("sources", [])
+
+    for s in sources:
+        if isinstance(s, dict) and s.get("source_type") == "structured_data" and "data" in s:
+            structured_data = s["data"]
+            break
+
     return {
         "answer": answer,
-        "sources": state.get("sources", []),
+        "sources": sources,
+        "structured_data": structured_data,
         "error": state.get("error", "")
-    }
+    }

@@ -78,6 +78,106 @@ def calculate_net_margin(net_income: float | None, revenue: float | None) -> flo
     return _clean((net_income / revenue) * 100)
 
 
+def calculate_ema(closes: np.ndarray, window: int) -> float | None:
+    if len(closes) < window:
+        return None
+    alpha = 2 / (window + 1)
+    ema = float(closes[0])
+    for price in closes[1:]:
+        ema = (float(price) * alpha) + (ema * (1 - alpha))
+    return _clean(ema)
+
+
+def calculate_macd(
+    closes: np.ndarray, fast: int = 12, slow: int = 26, signal: int = 9
+) -> dict | None:
+    """Calculates MACD Line, Signal Line, and MACD Histogram."""
+    if len(closes) < slow + signal:
+        return None
+    
+    alpha_fast = 2 / (fast + 1)
+    alpha_slow = 2 / (slow + 1)
+    
+    ema_fast_series = []
+    ema_slow_series = []
+    
+    ef = float(closes[0])
+    es = float(closes[0])
+    
+    for price in closes:
+        ef = (float(price) * alpha_fast) + (ef * (1 - alpha_fast))
+        es = (float(price) * alpha_slow) + (es * (1 - alpha_slow))
+        ema_fast_series.append(ef)
+        ema_slow_series.append(es)
+        
+    macd_series = np.array(ema_fast_series) - np.array(ema_slow_series)
+    
+    if len(macd_series) < signal:
+        return None
+        
+    alpha_signal = 2 / (signal + 1)
+    sig = float(macd_series[0])
+    for m in macd_series[1:]:
+        sig = (float(m) * alpha_signal) + (sig * (1 - alpha_signal))
+        
+    macd_val = _clean(macd_series[-1])
+    signal_val = _clean(sig)
+    hist_val = _clean(macd_series[-1] - sig) if macd_val is not None and signal_val is not None else None
+    
+    return {
+        "macd": macd_val,
+        "signal": signal_val,
+        "histogram": hist_val,
+    }
+
+
+def calculate_bollinger_bands(
+    closes: np.ndarray, window: int = 20, num_std: float = 2.0
+) -> dict | None:
+    """Calculates Upper, Middle (SMA), and Lower Bollinger Bands."""
+    if len(closes) < window:
+        return None
+    recent = closes[-window:]
+    middle = np.mean(recent)
+    std_dev = np.std(recent)
+    upper = middle + (num_std * std_dev)
+    lower = middle - (num_std * std_dev)
+    return {
+        "middle": _clean(middle),
+        "upper": _clean(upper),
+        "lower": _clean(lower),
+    }
+
+
+def calculate_pivot_points(high: float, low: float, close: float) -> dict | None:
+    """Calculates standard floor pivot points (Pivot, S1, S2, R1, R2)."""
+    if high is None or low is None or close is None:
+        return None
+    p = (high + low + close) / 3.0
+    r1 = (2 * p) - low
+    s1 = (2 * p) - high
+    r2 = p + (high - low)
+    s2 = p - (high - low)
+    return {
+        "pivot": _clean(p),
+        "r1": _clean(r1),
+        "r2": _clean(r2),
+        "s1": _clean(s1),
+        "s2": _clean(s2),
+    }
+
+
+def calculate_volume_trend(volumes: np.ndarray, window: int = 10) -> float | None:
+    """Calculates recent volume ratio compared to moving average volume."""
+    if len(volumes) < window + 1:
+        return None
+    recent_vol = volumes[-1]
+    avg_vol = np.mean(volumes[-(window + 1):-1])
+    if avg_vol == 0:
+        return None
+    return _clean(recent_vol / avg_vol)
+
+
 def calculate_drawdown(closes: np.ndarray) -> float | None:
     """Maximum drawdown (%) over the given closes series."""
     if len(closes) < 2:
@@ -85,3 +185,4 @@ def calculate_drawdown(closes: np.ndarray) -> float | None:
     running_max = np.maximum.accumulate(closes)
     drawdowns = (closes - running_max) / running_max
     return _clean(np.min(drawdowns) * 100)
+
