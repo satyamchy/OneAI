@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchPerformanceHistory } from '../../api/conversationApi.js';
+import AIPerformanceCard from './AIPerformanceCard.jsx';
 
 export default function StockAnalysisCard({ data }) {
   if (!data || !data.ticker) return null;
@@ -12,7 +14,15 @@ export default function StockAnalysisCard({ data }) {
     indicators,
   } = data;
 
-  const [activeTab, setActiveTab] = useState('intraday');
+  const [perfData, setPerfData] = useState(null);
+
+  useEffect(() => {
+    if (ticker) {
+      fetchPerformanceHistory(ticker)
+        .then((res) => setPerfData(res))
+        .catch(() => setPerfData(null));
+    }
+  }, [ticker]);
 
   const rsi = indicators?.rsi_14;
   const sma20 = indicators?.sma_20;
@@ -97,6 +107,9 @@ export default function StockAnalysisCard({ data }) {
           </div>
         </div>
       )}
+
+      {/* AI Performance Tracking Card */}
+      {perfData && <AIPerformanceCard performanceData={perfData} />}
     </div>
   );
 }

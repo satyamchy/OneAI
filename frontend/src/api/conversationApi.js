@@ -25,3 +25,9 @@ export function runConversation(query) {
   return api.get(`/v1/?query=${encodeURIComponent(query)}`).then((response) => response.data);
 }
 
+// Fetches AI performance history tracking snapshots for a stock.
+export function fetchPerformanceHistory(ticker) {
+  return api.get(`/v1/snapshots/${encodeURIComponent(ticker)}/performance`).then((response) => response.data);
+}
+
+
